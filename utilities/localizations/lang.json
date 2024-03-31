@@ -1,0 +1,24 @@
+{
+  "en": {
+    "hello": "Hello",
+    "change- language": "Change Language",
+    "tabs": {
+      "home": "Home",
+      "chat": "Chat",
+      "history": "History",
+      "settings": "Settings"
+    }
+  },
+  "fr": {
+    "hello": "Salut",
+    "tabs": {
+      "home": "Accueil",
+      "chat": "Chat",
+      "history": "Historique",
+      "settings": "Paramètres"
+    }
+  },
+  "es": {
+    "hello": "Hola"
+  }
+}

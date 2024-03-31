@@ -1,0 +1,483 @@
+{
+  "en": {
+    "hello": "Hello",
+    "lang-name": "English",
+    "change-language": "Change Language",
+    "tabs": {
+      "home": "Home",
+      "chat": "Chat",
+      "history": "History",
+      "settings": "Settings"
+    },
+    "start": {
+      "title": "Welcome to ConneXX",
+      "subtitle": "The ultimate AI-powered creative assistant",
+      "buttons": {
+        "google-sign-in": "Continue with Google",
+        "facebook-sign-in": "Continue with Facebook",
+        "get-started": "Get Started",
+        "chat-gpt-sign-in": "Continue with ChatGPT"
+      }
+    },
+    "home": {
+      "title": "Home",
+      "subtitle": "Your AI-powered creative assistant",
+      "greeting": "Hello ",
+      "question": "How can I help you today?",
+      "prompts": [
+        {
+          "title": "Explain",
+          "icon": "message-circle-outline",
+          "messages": [
+            "What is FTP?",
+            "What are Heart Rate Zones?",
+            "What is ConneXX?"
+          ]
+        },
+        {
+          "title": "Workout",
+          "icon": "brush-outline",
+          "messages": [
+            "Help me plan a workout routine",
+            "What are the best exercises for weight loss?",
+            "What are benefits of cycling?"
+          ]
+        }
+      ],
+      "buttons": {
+        "new-chat": "Start New Chat"
+      }
+    },
+    "chat": {
+      "title": "Chat",
+      "subtitle": "Chat with ConneXX",
+      "input": {
+        "placeholder": "Type your message here..",
+        "label": "Message"
+      },
+      "buttons": {
+        "send": "Send"
+      },
+      "messages": {
+        "copied": "Successfully copied to clipboard ",
+        "no-input": "Please enter a message to send",
+        "error": "Error sending message. Please try again"
+      }
+    },
+    "history": {
+      "title": "History",
+      "subtitle": "View your chat and generation history",
+      "content": "This is the history content",
+      "reload": "Reload",
+      "clear": "Clear",
+      "inputs": {
+        "search": "Search.."
+      },
+      "buttons": {
+        "clear": "Clear History",
+        "delete": "Delete"
+      },
+      "messages": {
+        "clear": "Are you sure you want to clear your history?",
+        "delete": "Are you sure you want to delete this item?",
+        "no-history": "No history"
+      },
+      "no-history": "No history"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Customize your experience",
+      "general": "General",
+      "language": "Language",
+      "dark-mode": "Dark Mode",
+      "about": "About",
+      "about-app": "About ConneXX",
+      "privacy-policy": "Privacy Policy",
+      "terms-of-service": "Terms of Service",
+      "rate-us": "Rate Us",
+      "share-app": "Share App",
+      "contact-us": "Contact Us",
+      "feedback": "Feedback",
+      "logout": "Logout"
+    },
+    "about": {
+      "title": "About ConneXX",
+      "subtitle": "Learn more about this app",
+      "content": "This is the about app content",
+      "version": "Version",
+      "version-number": "1.0.0",
+      "copyright": "Copyright © 2024"
+    },
+    "privacy-policy": {
+      "title": "Privacy Policy",
+      "subtitle": "Read our privacy policy",
+      "content": "This is the privacy policy content"
+    },
+    "terms-of-service": {
+      "title": "Terms of Service",
+      "subtitle": "Read our terms of service",
+      "content": "This is the terms of service content"
+    },
+    "rate-us": {
+      "title": "Rate Us",
+      "subtitle": "Rate this app on the app store",
+      "content": "This is the rate us content",
+      "buttons": {
+        "google-play": "Google Play",
+        "app-store": "App Store"
+      }
+    },
+    "share-app": {
+      "title": "Share App",
+      "subtitle": "Share this app with your friends",
+      "content": "This is the share app content"
+    },
+    "contact-us": {
+      "title": "Contact Us",
+      "subtitle": "Get in touch with us",
+      "content": "This is the contact us content",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "feedback": {
+      "title": "Feedback",
+      "subtitle": "Send us your feedback",
+      "content": "This is the feedback content",
+      "buttons": {
+        "send": "Send"
+      }
+    },
+    "logout": {
+      "title": "Logout",
+      "subtitle": "Logout of your account",
+      "content": "This is the logout content",
+      "buttons": {
+        "logout": "Logout",
+        "cancel": "Cancel"
+      }
+    },
+    "language": { "title": "Language" }
+  },
+  "fr": {
+    "hello": "Bonjour",
+    "lang-name": "Français",
+    "change-language": "Changer de langue",
+    "tabs": {
+      "home": "Accueil",
+      "chat": "Chat",
+      "history": "Historique",
+      "settings": "Paramètres"
+    },
+    "start": {
+      "title": "Bienvenue sur GenAI",
+      "subtitle": "L'assistant créatif ultime alimenté par l'IA",
+      "buttons": {
+        "google-sign-in": "Continuer avec Google",
+        "facebook-sign-in": "Continuer avec Facebook",
+        "get-started": "Commencer"
+      }
+    },
+    "home": {
+      "title": "Accueil",
+      "subtitle": "Votre assistant créatif alimenté par l'IA",
+      "greeting": "Bonjour ",
+      "question": "Comment puis-je vous aider aujourd'hui?",
+      "prompts": [
+        {
+          "title": "Expliquer",
+          "icon": "message-circle-outline",
+          "messages": [
+            "Pouvez-vous m'aider à planifier un voyage?",
+            "Quel temps fait-il aujourd'hui?",
+            "Pouvez-vous expliquer le concept de voyage dans le temps?"
+          ]
+        },
+        {
+          "title": "Créer",
+          "icon": "brush-outline",
+          "messages": [
+            "Que souhaitez-vous créer?",
+            "Aidez-moi à trouver un cadeau pour mon ami",
+            "Pouvez-vous m'aider à écrire une histoire?",
+            "Écrivez le plan d'un rapport de livre pour m'aider à démarrer",
+            "Pouvez-vous m'aider à écrire une recette?"
+          ]
+        }
+      ],
+      "buttons": {
+        "new-chat": "Démarrer une nouvelle discussion"
+      }
+    },
+    "chat": {
+      "title": "Chat",
+      "subtitle": "Discutez avec GenAI",
+      "input": {
+        "placeholder": "Tapez votre message ici..",
+        "label": "Message"
+      },
+      "buttons": {
+        "send": "Envoyer"
+      },
+      "messages": {
+        "copied": "Copié avec succès dans le presse-papiers ",
+        "no-input": "Veuillez entrer un message à envoyer",
+        "error": "Erreur lors de l'envoi du message. Veuillez réessayer"
+      }
+    },
+    "history": {
+      "title": "Historique",
+      "subtitle": "Consultez votre historique de chat et de génération",
+      "content": "Ceci est le contenu de l'historique",
+      "inputs": {
+        "search": "Rechercher.."
+      },
+      "buttons": {
+        "clear": "Effacer l'historique",
+        "delete": "Supprimer"
+      },
+      "messages": {
+        "clear": "Êtes-vous sûr de vouloir effacer votre historique ?",
+        "delete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+        "no-history": "Aucun historique"
+      },
+      "no-history": "Aucun historique"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Personnalisez votre expérience",
+      "general": "Général",
+      "language": "Langue",
+      "dark-mode": "Mode sombre",
+      "about": "À propos",
+      "about-app": "À propos de GenAI",
+      "privacy-policy": "Politique de confidentialité",
+      "terms-of-service": "Conditions d'utilisation",
+      "rate-us": "Évaluez-nous",
+      "share-app": "Partager l'application",
+      "contact-us": "Contactez-nous",
+      "feedback": "Retour d'information",
+      "logout": "Se déconnecter"
+    },
+    "about": {
+      "title": "À propos de GenAI",
+      "subtitle": "En savoir plus sur cette application",
+      "content": "Ceci est le contenu à propos de l'application",
+      "version": "Version",
+      "version-number": "1.0.0",
+      "copyright": "Droits d'auteur © 2024"
+    },
+    "privacy-policy": {
+      "title": "Politique de confidentialité",
+      "subtitle": "Lisez notre politique de confidentialité",
+      "content": "Ceci est le contenu de la politique de confidentialité"
+    },
+    "terms-of-service": {
+      "title": "Conditions d'utilisation",
+      "subtitle": "Lisez nos conditions d'utilisation",
+      "content": "Ceci est le contenu des conditions d'utilisation"
+    },
+    "rate-us": {
+      "title": "Évaluez-nous",
+      "subtitle": "Évaluez cette application sur l'App Store",
+      "content": "Ceci est le contenu de l'évaluation",
+      "buttons": {
+        "google-play": "Google Play",
+        "app-store": "App Store"
+      }
+    },
+    "share-app": {
+      "title": "Partager l'application",
+      "subtitle": "Partagez cette application avec vos amis",
+      "content": "Ceci est le contenu du partage de l'application"
+    },
+    "contact-us": {
+      "title": "Contactez-nous",
+      "subtitle": "Prenez contact avec nous",
+      "content": "Ceci est le contenu du contact",
+      "email": "Email",
+      "phone": "Téléphone"
+    },
+    "feedback": {
+      "title": "Retour d'information",
+      "subtitle": "Envoyez-nous vos commentaires",
+      "content": "Ceci est le contenu des commentaires",
+      "buttons": {
+        "send": "Envoyer"
+      }
+    },
+    "logout": {
+      "title": "Déconnexion",
+      "subtitle": "Déconnectez-vous de votre compte",
+      "content": "Ceci est le contenu de la déconnexion",
+      "buttons": {
+        "logout": "Déconnexion",
+        "cancel": "Annuler"
+      }
+    },
+    "language": { "title": "Langue" }
+  },
+  "es": {
+    "hello": "Hola",
+    "lang-name": "Español",
+    "change-language": "Cambiar idioma",
+    "tabs": {
+      "home": "Casa",
+      "chat": "Charla",
+      "history": "Historia",
+      "settings": "Ajustes"
+    },
+    "start": {
+      "title": "Bienvenido a GenAI",
+      "subtitle": "El asistente creativo definitivo alimentado por la IA",
+      "buttons": {
+        "google-sign-in": "Continuar con Google",
+        "facebook-sign-in": "Continuar con Facebook",
+        "get-started": "Empezar"
+      }
+    },
+    "home": {
+      "title": "Casa",
+      "subtitle": "Su asistente creativo alimentado por la IA",
+      "greeting": "Hola ",
+      "question": "¿Cómo puedo ayudarte hoy?",
+      "prompts": [
+        {
+          "title": "Explicar",
+          "icon": "message-circle-outline",
+          "messages": [
+            "¿Puedes ayudarme a planificar un viaje?",
+            "¿Cómo está el clima hoy?",
+            "¿Puedes explicar el concepto de viaje en el tiempo?"
+          ]
+        },
+        {
+          "title": "Crear",
+          "icon": "brush-outline",
+          "messages": [
+            "¿Qué te gustaría crear?",
+            "Ayúdame a encontrar un regalo para mi amigo",
+            "¿Puedes ayudarme a escribir una historia?",
+            "Escribe el esquema de un informe de libro para ayudarme a empezar",
+            "¿Puedes ayudarme a escribir una receta?"
+          ]
+        }
+      ],
+      "buttons": {
+        "new-chat": "Comenzar un nuevo chat"
+      }
+    },
+    "chat": {
+      "title": "Charla",
+      "subtitle": "Charla con GenAI",
+      "input": {
+        "placeholder": "Escribe tu mensaje aquí..",
+        "label": "Mensaje"
+      },
+      "buttons": {
+        "send": "Enviar"
+      },
+      "messages": {
+        "copied": "Copiado con éxito al portapapeles ",
+        "no-input": "Por favor, introduzca un mensaje para enviar",
+        "error": "Error al enviar el mensaje. Por favor, inténtelo de nuevo"
+      }
+    },
+    "history": {
+      "title": "Historia",
+      "subtitle": "Ver su historial de chat y generación",
+      "content": "Este es el contenido de la historia",
+      "inputs": {
+        "search": "Buscar.."
+      },
+      "buttons": {
+        "clear": "Borrar historial",
+        "delete": "Borrar"
+      },
+      "messages": {
+        "clear": "¿Estás seguro de que quieres borrar tu historial?",
+        "delete": "¿Estás seguro de que quieres borrar este elemento?",
+        "no-history": "Sin historia"
+      },
+      "no-history": "Sin historia"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "subtitle": "Personaliza tu experiencia",
+      "upper-section": {
+        "title": "¡Actualiza a la versión Pro!",
+        "subtitle": "¡Disfruta de todas las funciones de esta aplicación gratis!"
+      },
+      "general": "General",
+      "language": "Idioma",
+      "dark-mode": "Modo oscuro",
+      "purchase": "Comprar",
+      "purchase-history": "Historial de compras",
+      "about": "Acerca de",
+      "about-app": "Acerca de GenAI",
+      "privacy-policy": "Política de privacidad",
+      "terms-of-service": "Términos de servicio",
+      "rate-us": "Califícanos",
+      "share-app": "Compartir aplicación",
+      "contact-us": "Contáctenos",
+      "feedback": "Comentarios",
+      "logout": "Cerrar sesión"
+    },
+    "about": {
+      "title": "Acerca de GenAI",
+      "subtitle": "Obtén más información sobre esta aplicación",
+      "content": "Este es el contenido acerca de la aplicación",
+      "version": "Versión",
+      "version-number": "1.0.0",
+      "copyright": "Derechos de autor © 2024"
+    },
+    "privacy-policy": {
+      "title": "Política de Privacidad",
+      "subtitle": "Lee nuestra política de privacidad",
+      "content": "Este es el contenido de la política de privacidad"
+    },
+    "terms-of-service": {
+      "title": "Términos de Servicio",
+      "subtitle": "Lee nuestros términos de servicio",
+      "content": "Este es el contenido de los términos de servicio"
+    },
+    "rate-us": {
+      "title": "Califícanos",
+      "subtitle": "Califica esta aplicación en la tienda de aplicaciones",
+      "content": "Este es el contenido de califícanos",
+      "buttons": {
+        "google-play": "Google Play",
+        "app-store": "App Store"
+      }
+    },
+    "share-app": {
+      "title": "Compartir App",
+      "subtitle": "Comparte esta aplicación con tus amigos",
+      "content": "Este es el contenido de compartir la aplicación"
+    },
+    "contact-us": {
+      "title": "Contáctanos",
+      "subtitle": "Ponte en contacto con nosotros",
+      "content": "Este es el contenido de contactarnos",
+      "email": "Correo electrónico",
+      "phone": "Teléfono"
+    },
+    "feedback": {
+      "title": "Comentarios",
+      "subtitle": "Envíanos tus comentarios",
+      "content": "Este es el contenido de los comentarios",
+      "buttons": {
+        "send": "Enviar"
+      }
+    },
+    "logout": {
+      "title": "Cerrar Sesión",
+      "subtitle": "Cerrar sesión de tu cuenta",
+      "content": "Este es el contenido del cierre de sesión",
+      "buttons": {
+        "logout": "Cerrar Sesión",
+        "cancel": "Cancelar"
+      }
+    },
+    "language": { "title": "Idioma" }
+  }
+}
