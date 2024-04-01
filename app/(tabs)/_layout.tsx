@@ -32,7 +32,7 @@ export default function TabLayout() {
         // headerShown: useClientOnlyValue(false, true),
         headerShown: false,
       }}
-      initialRouteName='index'
+      initialRouteName='home'
     >
       {routes.map((route: any, index: number) => {
         return (
@@ -56,7 +56,10 @@ export default function TabLayout() {
 // Tabs array for the bottom tab bar (tabs) items
 const routes = [
   // home
-  { name: 'home', icon: 'message-circle-outline', route: 'index' },
+  { name: 'home', icon: 'home-outline', route: 'home' },
+
+  // chat
+  { name: 'chat', icon: 'message-circle-outline', route: 'index' },
 
   // history
   { name: 'history', icon: 'clock-outline', route: 'history' },

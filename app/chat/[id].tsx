@@ -21,7 +21,7 @@ import {
 } from '@ui-kitten/components';
 import { Link, router, useGlobalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -44,18 +44,28 @@ type state = {
     message: string;
     messages: Message[];
     conversationId: string;
+    isLoading: boolean;
   };
 };
 
 export default function ChatHistoryScreen() {
   const { theme } = useTheme();
   const { kittenTheme } = useAppContext();
-  const { message, messages, conversationId } = useSelector(
+  const { message, messages, conversationId, isLoading } = useSelector(
     (state: state) => state.chat
   );
   const dispatch = useDispatch();
 
   const { id } = useGlobalSearchParams();
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (scrollViewRef.current) {
+        scrollViewRef.current.scrollToEnd({ animated: true });
+      }
+    }, 100);
+  }, [messages]);
 
   useEffect(() => {
     if (messages.length >= 2) {
@@ -206,7 +216,7 @@ export default function ChatHistoryScreen() {
         enabled={true}
         style={{ flex: 1 }}
       >
-        <ScrollView>
+        <ScrollView ref={scrollViewRef}>
           <Layout level='2' style={styles.container}>
             {messages.map((message: any, index: any) => (
               <MessagesContainer
@@ -215,6 +225,17 @@ export default function ChatHistoryScreen() {
                 themeKitten={kittenTheme}
               />
             ))}
+            {isLoading && (
+              <MessagesContainer
+                item={{
+                  id: uuid(),
+                  message: '...',
+                  role: 'assistant',
+                  time: getTime(),
+                }}
+                themeKitten={kittenTheme}
+              />
+            )}
           </Layout>
         </ScrollView>
         <Layout

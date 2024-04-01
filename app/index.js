@@ -13,14 +13,9 @@ export default function index() {
   useEffect(() => {
     const checkIfFirstLaunch = async () => {
       try {
-        const value = await Storage.getData(
-          'alrdeadyLaunchedxxxxsmwjqkxxsaxxaasajns'
-        );
+        const value = await Storage.getData('alrdeadyLaunched');
         if (value === null) {
-          await Storage.storeData(
-            'alrdeadyLaunchedxxxxsmwjqkxxsaxxaasajns',
-            'true'
-          );
+          await Storage.storeData('alrdeadyLaunched', 'true');
           setIsFirstLaunch(true);
         } else {
           setIsFirstLaunch(false);
@@ -47,6 +42,7 @@ export default function index() {
       // If it's not the first launch, navigate to the home screen
       navigation.reset({
         index: 0,
+        // routes: [{ name: 'Signin' }],
         routes: [{ name: 'Signin' }],
       });
     }

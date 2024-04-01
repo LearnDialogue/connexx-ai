@@ -22,7 +22,7 @@ import { Link, useGlobalSearchParams } from 'expo-router';
 import { useTheme } from '@/utilities/context/theme-context';
 import { useAppContext } from '@/utilities/context/app-context';
 import MessagesContainer from '@/components/MessagesContainer';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utilities/localizations/i18n';
 import { Message } from '@/constants/types/chat/message';
@@ -39,17 +39,27 @@ type state = {
     message: string;
     messages: Message[];
     conversationId: string;
+    isLoading: boolean;
   };
 };
 
 export default function ChatScreen() {
   const { theme } = useTheme();
   const { kittenTheme } = useAppContext();
-  const { message, messages, conversationId } = useSelector(
+  const { message, messages, conversationId, isLoading } = useSelector(
     (state: state) => state.chat
   );
   const dispatch = useDispatch();
   const { message: globalMessage, prompt, ...other } = useGlobalSearchParams();
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (scrollViewRef.current) {
+        scrollViewRef.current.scrollToEnd({ animated: true });
+      }
+    }, 100);
+  }, [messages]);
 
   useEffect(() => {
     if (globalMessage) {
@@ -183,7 +193,7 @@ export default function ChatScreen() {
         enabled={true}
         style={{ flex: 1 }}
       >
-        <ScrollView>
+        <ScrollView ref={scrollViewRef}>
           <Layout level='2' style={styles.container}>
             {messages.map((message, index) => (
               <MessagesContainer
@@ -192,6 +202,17 @@ export default function ChatScreen() {
                 themeKitten={kittenTheme}
               />
             ))}
+            {isLoading && (
+              <MessagesContainer
+                item={{
+                  id: uuid(),
+                  message: '...',
+                  role: 'assistant',
+                  time: getTime(),
+                }}
+                themeKitten={kittenTheme}
+              />
+            )}
           </Layout>
         </ScrollView>
         <Layout

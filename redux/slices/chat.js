@@ -8,7 +8,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuid } from 'uuid';
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   error: null,
   success: null,
   messages: [],
@@ -24,6 +24,11 @@ const slice = createSlice({
     startLoading(state) {
       state.isLoading = true;
       state.error = false;
+    },
+
+    // STOP LOADING
+    stopLoading(state) {
+      state.isLoading = false;
     },
 
     // SET CONVERSATION ID
@@ -97,6 +102,8 @@ export function askGPT() {
     } catch (error) {
       console.log(error);
       dispatch(actions.hasError(error));
+    } finally {
+      dispatch(actions.stopLoading());
     }
   };
 }

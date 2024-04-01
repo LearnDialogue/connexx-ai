@@ -16,13 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sunnydhama.connexxai"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sunnydhama.connexxai"
     },
     "web": {
       "build": {
@@ -51,6 +53,12 @@
       "eas": {
         "projectId": "5a004c32-b891-4217-af32-f3ff8f7f587a"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5a004c32-b891-4217-af32-f3ff8f7f587a"
     }
   }
 }
