@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// utils
-import axios from 'axios';
-
 // Slice to fetch User Detail
 
 const initialState = {
@@ -132,64 +129,3 @@ const slice = createSlice({
 // Reducer
 export default slice.reducer;
 export const { actions } = slice;
-
-// Actions
-export function getUser() {
-  return async (dispatch) => {
-    dispatch(actions.startLoading());
-    try {
-      const response = await axios.get('/api/v1/accounts/profile/');
-      dispatch(actions.getUserSuccess(response.data));
-    } catch (error) {
-      dispatch(actions.hasError(error));
-    }
-  };
-}
-
-export function updateProfile(data) {
-  return async (dispatch) => {
-    dispatch(actions.startProfileUpdateLoading());
-    try {
-      const response = await axios.patch('/api/v1/accounts/profile/', data);
-      dispatch(actions.profileUpdateSuccess(response.data));
-    } catch (error) {
-      dispatch(actions.profileUpdateHasError(error));
-    }
-  };
-}
-
-export function forgotPassword(data) {
-  return async (dispatch) => {
-    dispatch(actions.startForgotPassLoading());
-    try {
-      await axios.post('/api/v1/accounts/forgot-password/', data);
-      dispatch(actions.forgotPassSuccess());
-    } catch (error) {
-      dispatch(actions.forgotPassHasError(error));
-    }
-  };
-}
-
-export function updatePassword(data) {
-  return async (dispatch) => {
-    dispatch(actions.startPasswordResetLoading());
-    try {
-      await axios.post('/api/v1/accounts/update-password/', data);
-      dispatch(actions.passwordResetSuccess());
-    } catch (error) {
-      dispatch(actions.passwordResetHasError(error));
-    }
-  };
-}
-
-export function resetPassword(data) {
-  return async (dispatch) => {
-    dispatch(actions.startPasswordResetLoading());
-    try {
-      await axios.post('/api/v1/accounts/reset-password/', data);
-      dispatch(actions.passwordResetSuccess());
-    } catch (error) {
-      dispatch(actions.passwordResetHasError(error));
-    }
-  };
-}
