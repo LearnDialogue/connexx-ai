@@ -4,12 +4,8 @@ import Constants from 'expo-constants';
 
 export const CHAT_GPT_MODEL = 'gpt-3.5-turbo';
 
-alert(
-  'OpenAIWrapper: ' + JSON.stringify(Constants?.expoConfig?.extra?.OPEN_API_KEY)
-);
-
 export const OpenAIWrapper = new OpenAI({
-  apiKey: Constants?.expoConfig?.extra?.OPEN_API_KEY,
+  apiKey: process.env.OPEN_API_KEY,
 });
 
 export const sendMessage = async (message: any, messages: any) => {
