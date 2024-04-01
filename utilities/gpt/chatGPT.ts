@@ -1,10 +1,11 @@
 import { GPT_SYSTEM_ROLE } from '@/constants/api';
 import OpenAI from 'openai';
+import Constants from 'expo-constants';
 
 export const CHAT_GPT_MODEL = 'gpt-3.5-turbo';
 
 export const OpenAIWrapper = new OpenAI({
-  apiKey: process.env.OPEN_API_KEY,
+  apiKey: Constants?.expoConfig?.extra?.OPEN_API_KEY,
 });
 
 export const sendMessage = async (message: any, messages: any) => {
