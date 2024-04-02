@@ -50,38 +50,13 @@ export default function TabChatScreen() {
     />
   );
 
-  const renderLeftAccessory = () => {
-    return (
-      <View
-        style={{
-          marginRight: 8,
-          alignItems: 'center',
-          flexDirection: 'row',
-          gap: 11,
-          justifyContent: 'center',
-        }}
-      >
-        <CustomeIcon
-          name='robot-happy-outline'
-          pack='material-community-icons'
-          size={28}
-          color={kittenTheme['color-primary-default']}
-        />
-        <Text category='h5' status='primary'>
-          ConneXX
-        </Text>
-      </View>
-    );
-  };
-
   const prompts = [...i18n.t('home.prompts')];
 
   return (
     <Layout level='1' style={{ flex: 1 }}>
       <TopNavigation
-        // title={i18n.t('home.title')}
-        // subtitle={i18n.t('home.subtitle')}
-        title={renderLeftAccessory}
+        title={i18n.t('home.title')}
+        subtitle={i18n.t('home.subtitle')}
         alignment='center'
         // accessoryLeft={renderLeftAccessory}
       />
@@ -91,12 +66,6 @@ export default function TabChatScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 22 }}
         >
-          <Text category='h4'>
-            {i18n.t('home.greeting', { defaultValue: 'Hello' })?.toString()}
-            <Text category='h3' status='primary'>
-              {auth.currentUser?.displayName || 'User'}
-            </Text>
-          </Text>
           <Text category='h5' appearance='hint'>
             {i18n.t('home.question', {
               defaultValue: 'How can I help you today?',

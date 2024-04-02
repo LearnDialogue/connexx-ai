@@ -10,58 +10,84 @@ import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Categories, exercises, popularWorkouts } from '../../data';
 import { useNavigation } from 'expo-router';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { width } from '../../constants/size';
 import { useAppContext } from '@/utilities/context/app-context';
-import { auth } from '@/firebase';
-import icons from '../../constants/icons';
 import images from '../../constants/images';
 import SubHeader from '../../components/SubHeader';
 import CategoryCard from '../../components/CategoryCard';
 import WorkoutCard from '../../components/WorkoutCard';
 import ExerciseCard from '../../components/ExerciseCard';
+import CustomeIcon from '@/utilities/icons/custome-icons';
+import i18n from '@/utilities/localizations/i18n';
+import { auth } from '@/firebase';
 
 const Home = () => {
   const { kittenTheme } = useAppContext();
   const navigation = useNavigation();
+
+  const renderLeftAccessory = () => {
+    return (
+      <View
+        style={{
+          marginRight: 8,
+          alignItems: 'center',
+          flexDirection: 'row',
+          gap: 11,
+          justifyContent: 'center',
+        }}
+      >
+        <CustomeIcon
+          name='robot-happy-outline'
+          pack='material-community-icons'
+          size={28}
+          color={kittenTheme['color-primary-default']}
+        />
+        <Text category='h5' status='primary'>
+          ConneXX
+        </Text>
+      </View>
+    );
+  };
 
   /**
    * Render Header
    */
   const renderHeader = () => {
     return (
-      <View
-        style={[
-          styles.headerContainer,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <Text style={styles.headerTitle}>
-          Hi, {auth.currentUser?.displayName || 'User'}
-        </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('home')}
-          style={[
-            styles.headerIconContainer,
-            {
-              borderColor: kittenTheme['color-primary-500'],
-            },
-          ]}
-        >
-          <Image
-            source={icons.bell}
-            resizeMode='contain'
-            style={[
-              styles.bellIcon,
-              {
-                tintColor: kittenTheme['color-primary-500'],
-              },
-            ]}
-          />
-        </TouchableOpacity>
-      </View>
+      // <View
+      //   style={[
+      //     styles.headerContainer,
+      //     {
+      //       backgroundColor: kittenTheme['background-basic-color-2'],
+      //     },
+      //   ]}
+      // >
+      //   <Text style={styles.headerTitle}>
+      //     Hi, {auth.currentUser?.displayName || 'User'}
+      //   </Text>
+      <TopNavigation title={renderLeftAccessory} alignment='center' />
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('home')}
+      //   style={[
+      //     styles.headerIconContainer,
+      //     {
+      //       borderColor: kittenTheme['color-primary-500'],
+      //     },
+      //   ]}
+      // >
+      //   <Image
+      //     source={icons.bell}
+      //     resizeMode='contain'
+      //     style={[
+      //       styles.bellIcon,
+      //       {
+      //         tintColor: kittenTheme['color-primary-500'],
+      //       },
+      //     ]}
+      //   />
+      // </TouchableOpacity>
+      // </View>
     );
   };
   /**
@@ -253,6 +279,22 @@ const Home = () => {
       </Layout>
     );
   };
+
+  const renderGreetings = () => {
+    return (
+      <Text
+        category='h4'
+        style={{
+          marginBottom: 12,
+        }}
+      >
+        {i18n.t('home.greeting', { defaultValue: 'Hello' })?.toString()}
+        <Text category='h3' status='primary'>
+          {auth.currentUser?.displayName || 'User'}
+        </Text>
+      </Text>
+    );
+  };
   return (
     <Layout
       level='1'
@@ -267,7 +309,9 @@ const Home = () => {
         {renderHeader()}
         {renderSearchBar()}
         <FlatList
+          style={{ paddingHorizontal: 16 }}
           data={[
+            { key: 'greetings' },
             { key: 'banner' },
             { key: 'categories' },
             { key: 'popularWorkouts' },
@@ -275,6 +319,8 @@ const Home = () => {
           ]}
           renderItem={({ item }) => {
             switch (item.key) {
+              case 'greetings':
+                return renderGreetings();
               case 'banner':
                 return renderBanner();
               case 'categories':
@@ -301,7 +347,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
   },
   headerContainer: {
     width: width - 32,
@@ -333,6 +379,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 16,
     paddingHorizontal: 12,
   },
   inputSearch: {
@@ -341,7 +388,7 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     width: width - 32,
-    height: 220,
+    height: 230,
     borderRadius: 12,
     flexDirection: 'row',
     overflow: 'hidden',
@@ -374,9 +421,9 @@ const styles = StyleSheet.create({
   },
   bannerImage: {
     width: 170,
-    height: 198,
+    height: 210,
     bottom: -25,
-    right: 42,
+    right: 10,
   },
   subHeaderTitle: {
     fontSize: 12,

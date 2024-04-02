@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { RefreshControl, StyleSheet, View } from 'react-native';
 
 import {
+  Button,
   Divider,
   Icon,
   IconProps,
@@ -19,12 +20,16 @@ import initialSearchState from '@/constants/types/history/search-state';
 // import Storage from '@/utilities/storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { auth, db } from '@/firebase';
-import { deleteAllChats, getAllChats } from '@/redux/slices/chat';
+import { actions, deleteAllChats, getAllChats } from '@/redux/slices/chat';
+import { useDispatch, useSelector } from '@/redux/store';
 
 export default function TabHistoryScreen() {
   const { theme } = useTheme();
   const { kittenTheme, appData, setAppData } = useAppContext();
+  // @ts-ignore
+  const { isAllChatsLoading } = useSelector((state) => state.chat);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   // search icon
   const SearchIcon = (props: IconProps) => (
@@ -35,6 +40,7 @@ export default function TabHistoryScreen() {
   const [search, setSearch] = useState(initialSearchState);
 
   const getStoredMessages = async () => {
+    dispatch(actions.startAllChatsLoading());
     try {
       const storedMessages = await getAllChats();
       if (storedMessages) {
@@ -46,6 +52,7 @@ export default function TabHistoryScreen() {
     } catch (error) {
       console.log('error', error);
     }
+    dispatch(actions.stopAllChatsLoading());
   };
 
   const clearHistory = async () => {
@@ -85,37 +92,51 @@ export default function TabHistoryScreen() {
           onChangeText={(nextValue) =>
             setSearch({ ...search, query: nextValue })
           }
-          style={{ marginVertical: 10 }}
+          style={{ marginTop: 10 }}
           placeholder={i18n.t('history.inputs.search', {
             defaultValue: 'Search',
           })}
           accessoryRight={SearchIcon}
         />
-        {/* Button to reload history */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <Text
-            style={{ color: kittenTheme['color-primary-500'] }}
-            onPress={getStoredMessages}
-          >
-            {i18n.t('history.reload')}
+        {appData?.history?.chat?.length === 0 && (
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+            {i18n.t('history.noChats', {
+              defaultValue: 'No chats available',
+            })}
           </Text>
-          <Text
-            style={{ color: kittenTheme['color-primary-500'] }}
+        )}
+        <List
+          refreshControl={
+            <RefreshControl
+              refreshing={isAllChatsLoading}
+              onRefresh={getStoredMessages}
+              colors={[kittenTheme['color-primary-500']]}
+              tintColor={kittenTheme['color-primary-500']}
+            />
+          }
+          scrollEnabled
+          style={styles.listConatiner}
+          data={appData?.history?.chat}
+          renderItem={({ item, index }) => (
+            <HistoryItem item={item} index={index} />
+          )}
+        />
+        {/* if not chats present show text message */}
+
+        {/* delete all button */}
+        {appData?.history?.chat?.length !== 0 && (
+          <Button
+            appearance='ghost'
+            status='danger'
+            size='large'
             onPress={clearHistory}
+            style={{ marginTop: 10 }}
           >
-            {i18n.t('history.clear')}
-          </Text>
-        </View>
-        {appData.history &&
-        appData.history.chat &&
-        appData.history.chat.length > 0 ? (
-          <List
-            scrollEnabled
-            style={styles.listConatiner}
-            data={appData.history.chat}
-            renderItem={HistoryItem}
-          />
-        ) : null}
+            {i18n.t('history.buttons.clear', {
+              defaultValue: 'Clear history',
+            })}
+          </Button>
+        )}
       </Layout>
     </Layout>
   );

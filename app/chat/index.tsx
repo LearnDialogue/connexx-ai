@@ -17,22 +17,16 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useGlobalSearchParams } from 'expo-router';
 import { useTheme } from '@/utilities/context/theme-context';
 import { useAppContext } from '@/utilities/context/app-context';
 import MessagesContainer from '@/components/MessagesContainer';
-import React, { useEffect, useRef } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useRef, useState } from 'react';
 import i18n from '@/utilities/localizations/i18n';
 import { Message } from '@/constants/types/chat/message';
 import getTime from '@/utilities/functions/chat/get-time';
 import { useDispatch, useSelector } from '@/redux/store';
-import {
-  actions,
-  askGPT,
-  storeConversationToAsyncStorage,
-} from '@/redux/slices/chat';
+import { actions, askGPT } from '@/redux/slices/chat';
 
 type state = {
   chat: {
@@ -52,6 +46,24 @@ export default function ChatScreen() {
   const dispatch = useDispatch();
   const { message: globalMessage, prompt, ...other } = useGlobalSearchParams();
   const scrollViewRef = useRef<ScrollView>(null);
+  const [typingIndicatorText, setTypingIndicatorText] = useState('');
+
+  useEffect(() => {
+    // @ts-ignore
+    let typingAnimation;
+    if (isLoading) {
+      let animationStep = 0;
+      typingAnimation = setInterval(() => {
+        animationStep = (animationStep % 3) + 1; // Cycle through 1, 2, 3
+        setTypingIndicatorText('.'.repeat(animationStep)); // Set the text based on the current step
+      }, 500); // Adjust the interval as needed
+    } else {
+      setTypingIndicatorText(''); // Reset the text when not typing
+    }
+
+    // @ts-ignore
+    return () => clearInterval(typingAnimation); // Clear the interval when the component unmounts or isLoading changes
+  }, [isLoading]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -202,7 +214,7 @@ export default function ChatScreen() {
               <MessagesContainer
                 item={{
                   id: uuid(),
-                  message: '...',
+                  message: typingIndicatorText,
                   role: 'assistant',
                   time: getTime(),
                 }}

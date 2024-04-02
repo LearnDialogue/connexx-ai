@@ -4,80 +4,6 @@ import { sendMessage } from '@/utilities/gpt/chatGPT';
 import { createSlice } from '@reduxjs/toolkit';
 import { db, auth } from '@/firebase';
 import { doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
-
-// write db functions to add/update/delete chats
-
-const addChat = async (chat) => {
-  const { currentUser } = auth;
-  const chatRef = doc(db, 'chats', currentUser.uid);
-  try {
-    // Get existing chats data
-    const chatSnapshot = await getDoc(chatRef);
-    const existingChats = chatSnapshot.exists()
-      ? chatSnapshot.data().chats || []
-      : [];
-    const { id } = chat;
-    // Check if the chat already exists
-    const chatIndex = existingChats.findIndex((chat) => chat.id === id);
-    if (chatIndex !== -1) {
-      // Update the chat if it already exists
-      existingChats[chatIndex] = chat;
-      await setDoc(chatRef, { chats: existingChats });
-      return chat;
-    } else {
-      // Add the new chat to the existing chats array
-      existingChats.unshift(chat);
-      // Update the chats document with the updated chats array
-      await setDoc(chatRef, { chats: existingChats }); // Pass an object with 'chats' property
-      return chat; // Return the added chat
-    }
-  } catch (error) {
-    console.log('Error adding chat: ', error);
-    return null;
-  }
-};
-
-export const deleteAllChats = async () => {
-  const { currentUser } = auth;
-  const chatRef = doc(db, 'chats', currentUser.uid);
-  try {
-    deleteDoc(chatRef);
-    return true;
-  } catch (error) {
-    console.log('Error deleting chat: ', error);
-    return false;
-  }
-};
-
-export const getAllChats = async () => {
-  const { currentUser } = auth;
-  const chatRef = doc(db, 'chats', currentUser.uid);
-  try {
-    const chat = await getDoc(chatRef);
-    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
-    return storedMessages.chats;
-  } catch (error) {
-    console.log('Error getting chat: ', error);
-    return [];
-  }
-};
-
-// get chat with id
-export const getChatById = async (id) => {
-  const { currentUser } = auth;
-  const chatRef = doc(db, 'chats', currentUser.uid);
-  try {
-    const chat = await getDoc(chatRef);
-    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
-    const chatData = storedMessages.chats.find((chat) => chat.id === id);
-    return chatData;
-  } catch (error) {
-    console.log('Error getting chat: ', error);
-    return null;
-  }
-};
-
-// utils
 // @ts-ignore
 import { v4 as uuid } from 'uuid';
 
@@ -88,6 +14,7 @@ const initialState = {
   messages: [],
   message: '',
   conversationId: '',
+  isAllChatsLoading: false,
 };
 
 const slice = createSlice({
@@ -136,6 +63,16 @@ const slice = createSlice({
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+    // START ALL CHATS LOADING
+    startAllChatsLoading(state) {
+      state.isAllChatsLoading = true;
+    },
+
+    // STOP ALL CHATS LOADING
+    stopAllChatsLoading(state) {
+      state.isAllChatsLoading = false;
     },
 
     // RESET STATE
@@ -231,3 +168,92 @@ export function storeConversationToAsyncStorage() {
     dispatch(actions.setConversationId(conversation.id));
   };
 }
+
+// write db functions to add/update/delete chats
+
+const addChat = async (chat) => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    // Get existing chats data
+    const chatSnapshot = await getDoc(chatRef);
+    const existingChats = chatSnapshot.exists()
+      ? chatSnapshot.data().chats || []
+      : [];
+    const { id } = chat;
+    // Check if the chat already exists
+    const chatIndex = existingChats.findIndex((chat) => chat.id === id);
+    if (chatIndex !== -1) {
+      // Update the chat if it already exists
+      existingChats[chatIndex] = chat;
+      await setDoc(chatRef, { chats: existingChats });
+      return chat;
+    } else {
+      // Add the new chat to the existing chats array
+      existingChats.unshift(chat);
+      // Update the chats document with the updated chats array
+      await setDoc(chatRef, { chats: existingChats }); // Pass an object with 'chats' property
+      return chat; // Return the added chat
+    }
+  } catch (error) {
+    console.log('Error adding chat: ', error);
+    return null;
+  }
+};
+
+export const deleteAllChats = async () => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    deleteDoc(chatRef);
+    return true;
+  } catch (error) {
+    console.log('Error deleting chat: ', error);
+    return false;
+  }
+};
+
+export const getAllChats = async () => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    const chat = await getDoc(chatRef);
+    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
+    return storedMessages.chats;
+  } catch (error) {
+    console.log('Error getting chat: ', error);
+    return [];
+  }
+};
+
+// get chat with id
+export const getChatById = async (id) => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    const chat = await getDoc(chatRef);
+    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
+    const chatData = storedMessages.chats.find((chat) => chat.id === id);
+    return chatData;
+  } catch (error) {
+    console.log('Error getting chat: ', error);
+    return null;
+  }
+};
+
+// delete chat with id
+export const deleteChatById = async (id) => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    const chat = await getDoc(chatRef);
+    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
+    const newChats = storedMessages.chats.filter((chat) => chat.id !== id);
+    console.log(newChats, id);
+    await setDoc(chatRef, { chats: newChats });
+    return true;
+  } catch (error) {
+    console.log('Error deleting chat: ', error);
+    return false;
+  }
+};

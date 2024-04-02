@@ -8,8 +8,6 @@ import {
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { validateInput } from '../utilities/actions/formActions';
 import { reducer } from '../utilities/reducers/formReducers';
-import icons from '../constants/icons';
-import SocialButton from '../components/SocialButton';
 import { useNavigation } from 'expo-router';
 import { Button, Input, Text } from '@ui-kitten/components';
 import { width } from '../constants/size';
@@ -60,21 +58,6 @@ const Signin = () => {
       Alert.alert('An error occured', error);
     }
   }, [error]);
-
-  // implementing apple authentication
-  const appleAuthHandler = () => {
-    console.log('Apple Authentication');
-  };
-
-  // implementing facebook authentication
-  const facebookAuthHandler = () => {
-    console.log('Facebook Authentication');
-  };
-
-  // Implementing google authentication
-  const googleAuthHandler = () => {
-    console.log('Google Authentication');
-  };
 
   const handleSignIn = () => {
     dispatch(signInUser());
@@ -186,14 +169,6 @@ const Signin = () => {
             Forgot Password?
           </Text>
         </TouchableOpacity>
-        <View>
-          <Text style={styles.socialTitle}>Continue with</Text>
-          <View style={styles.socialBtnContainer}>
-            <SocialButton icon={icons.appleLogo} onPress={appleAuthHandler} />
-            <SocialButton icon={icons.facebook} onPress={facebookAuthHandler} />
-            <SocialButton icon={icons.google} onPress={googleAuthHandler} />
-          </View>
-        </View>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <Text style={styles.bottomLeft}>Don&apos;t have an account ?</Text>

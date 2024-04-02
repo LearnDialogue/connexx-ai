@@ -20,8 +20,8 @@
       }
     },
     "home": {
-      "title": "Home",
-      "subtitle": "Your AI-powered creative assistant",
+      "title": "Chat",
+      "subtitle": "Your AI-powered health coach",
       "greeting": "Hello ",
       "question": "How can I help you today?",
       "prompts": [

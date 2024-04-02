@@ -139,10 +139,6 @@ function NavigationStack() {
         <Stack.Screen name='Onboarding1' options={{ headerShown: false }} />
         <Stack.Screen name='Onboarding2' options={{ headerShown: false }} />
         <Stack.Screen name='Onboarding3' options={{ headerShown: false }} />
-        <Stack.Screen
-          name='Auth'
-          options={{ headerShown: false, presentation: 'modal' }}
-        />
         <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         <Stack.Screen name='Gender' options={{ headerShown: false }} />
         <Stack.Screen name='Goals' options={{ headerShown: false }} />
