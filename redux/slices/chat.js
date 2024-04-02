@@ -1,7 +1,81 @@
 import getTime from '@/utilities/functions/chat/get-time';
 import { sendMessage } from '@/utilities/gpt/chatGPT';
-import Storage from '@/utilities/storage/async-storage';
+// import Storage from '@/utilities/storage/async-storage';
 import { createSlice } from '@reduxjs/toolkit';
+import { db, auth } from '@/firebase';
+import { doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
+
+// write db functions to add/update/delete chats
+
+const addChat = async (chat) => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    // Get existing chats data
+    const chatSnapshot = await getDoc(chatRef);
+    const existingChats = chatSnapshot.exists()
+      ? chatSnapshot.data().chats || []
+      : [];
+    const { id } = chat;
+    // Check if the chat already exists
+    const chatIndex = existingChats.findIndex((chat) => chat.id === id);
+    if (chatIndex !== -1) {
+      // Update the chat if it already exists
+      existingChats[chatIndex] = chat;
+      await setDoc(chatRef, { chats: existingChats });
+      return chat;
+    } else {
+      // Add the new chat to the existing chats array
+      existingChats.unshift(chat);
+      // Update the chats document with the updated chats array
+      await setDoc(chatRef, { chats: existingChats }); // Pass an object with 'chats' property
+      return chat; // Return the added chat
+    }
+  } catch (error) {
+    console.log('Error adding chat: ', error);
+    return null;
+  }
+};
+
+export const deleteAllChats = async () => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    deleteDoc(chatRef);
+    return true;
+  } catch (error) {
+    console.log('Error deleting chat: ', error);
+    return false;
+  }
+};
+
+export const getAllChats = async () => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    const chat = await getDoc(chatRef);
+    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
+    return storedMessages.chats;
+  } catch (error) {
+    console.log('Error getting chat: ', error);
+    return [];
+  }
+};
+
+// get chat with id
+export const getChatById = async (id) => {
+  const { currentUser } = auth;
+  const chatRef = doc(db, 'chats', currentUser.uid);
+  try {
+    const chat = await getDoc(chatRef);
+    const storedMessages = chat.exists() ? chat.data() : { chats: [] };
+    const chatData = storedMessages.chats.find((chat) => chat.id === id);
+    return chatData;
+  } catch (error) {
+    console.log('Error getting chat: ', error);
+    return null;
+  }
+};
 
 // utils
 // @ts-ignore
@@ -66,7 +140,7 @@ const slice = createSlice({
 
     // RESET STATE
     resetState(state) {
-      state.isLoading = true;
+      state.isLoading = false;
       state.error = false;
       state.messages = [];
       state.message = '';
@@ -99,19 +173,21 @@ export function askGPT() {
         time: responseTime,
       };
       dispatch(actions.getMessageSuccess(newMessage));
+      dispatch(storeConversationToAsyncStorage());
     } catch (error) {
       console.log(error);
       dispatch(actions.hasError(error));
-    } finally {
-      dispatch(actions.stopLoading());
     }
+    dispatch(actions.stopLoading());
   };
 }
 
 export function storeConversationToAsyncStorage() {
   return async (dispatch, getState) => {
     const { messages, conversationId } = getState().chat;
-    const storedMessages = (await Storage.getObjectData('chat-history')) || [];
+    // const storedMessages = (await Storage.getObjectData('chat-history')) || [];
+    // get chat history from db
+    const storedMessages = await getAllChats();
     // chat history is like [{id: '1', time: { date: '2024-03-01', time: '12:25' }, messages: [{role: 'user', content: 'hi'}, {role: 'assistant', content: 'hello'}]}]
     let conversation = {
       id: '',
@@ -120,13 +196,11 @@ export function storeConversationToAsyncStorage() {
     };
 
     if (!conversationId) {
-      const newConversationId = uuid();
       conversation = {
-        id: newConversationId,
+        id: uuid(),
         time: getTime(),
         messages: [],
       };
-      dispatch(actions.setConversationId(newConversationId));
     } else {
       conversation = storedMessages.find(
         (conversation) => conversation.id === conversationId
@@ -150,6 +224,10 @@ export function storeConversationToAsyncStorage() {
     );
     // @ts-ignore
     newStoredMessages.push(conversation);
-    Storage.storeObjectData('chat-history', newStoredMessages);
+    // Storage.storeObjectData('chat-history', newStoredMessages);
+
+    // add/update chat to db
+    await addChat(conversation);
+    dispatch(actions.setConversationId(conversation.id));
   };
 }

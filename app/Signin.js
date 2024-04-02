@@ -6,7 +6,6 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { validateInput } from '../utilities/actions/formActions';
 import { reducer } from '../utilities/reducers/formReducers';
 import icons from '../constants/icons';
@@ -15,12 +14,13 @@ import { useNavigation } from 'expo-router';
 import { Button, Input, Text } from '@ui-kitten/components';
 import { width } from '../constants/size';
 import { useAppContext } from '@/utilities/context/app-context';
-const isTestMode = true;
+import { useDispatch } from '@/redux/store';
+import { signInUser, actions } from '@/redux/slices/user';
 
 const initialState = {
   inputValues: {
-    email: isTestMode ? 'example@gmail.com' : '',
-    password: isTestMode ? '**********' : '',
+    email: '',
+    password: '',
   },
   inputValidities: {
     email: false,
@@ -37,6 +37,7 @@ const Signin = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { kittenTheme } = useAppContext();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const inputChangedHandler = useCallback(
     (inputId, inputValue) => {
@@ -45,6 +46,14 @@ const Signin = () => {
     },
     [dispatchFormState]
   );
+
+  // update redux state of user for input values
+  useEffect(() => {
+    // set email
+    dispatch(actions.setEmail(formState.inputValues['email']));
+    // set password
+    dispatch(actions.setPassword(formState.inputValues['password']));
+  }, [formState]);
 
   useEffect(() => {
     if (error) {
@@ -67,108 +76,143 @@ const Signin = () => {
     console.log('Google Authentication');
   };
 
+  const handleSignIn = () => {
+    dispatch(signInUser());
+  };
+
+  const renderEmailCaption = () => {
+    if (!formState.inputValidities['email']) {
+      return null;
+    }
+    return (
+      <View style={styles.captionContainer}>
+        <Text
+          style={[
+            styles.captionText,
+            {
+              color: kittenTheme['color-danger-500'],
+            },
+          ]}
+        >
+          should be valid email
+        </Text>
+      </View>
+    );
+  };
+
+  const renderPasswordCaption = () => {
+    if (!formState.inputValidities['password']) {
+      return null;
+    }
+    return (
+      <View style={styles.captionContainer}>
+        <Text
+          style={[
+            styles.captionText,
+            {
+              color: kittenTheme['color-danger-500'],
+            },
+          ]}
+        >
+          password should be at least 6 characters
+        </Text>
+      </View>
+    );
+  };
+
   return (
-    <SafeAreaView
+    <View
       style={[
-        styles.area,
+        styles.container,
         {
           backgroundColor: kittenTheme['background-basic-color-2'],
         },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Sign In</Text>
-          <Input
-            id='email'
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['email']}
-            placeholder='Email'
-            keyboardType='email-address'
-            style={{
-              marginBottom: 12,
-              color: kittenTheme['color-primary-500'],
-              borderColor: kittenTheme['color-primary-500'],
-            }}
-            placeholderTextColor={kittenTheme['color-primary-100']}
-            autoCapitalize='none'
-          />
-          <Input
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['password']}
-            autoCapitalize='none'
-            id='password'
-            placeholder='Password'
-            secureTextEntry={true}
-            style={{
-              marginBottom: 12,
-              color: kittenTheme['color-primary-500'],
-              borderColor: kittenTheme['color-primary-500'],
-            }}
-            placeholderTextColor={kittenTheme['color-primary-100']}
-          />
-          <Button
-            filled
-            onPress={() => navigation.navigate('Gender')}
-            style={{
-              marginVertical: 6,
-              width: width - 32,
-            }}
+      <ScrollView contentContainerStyle={styles.center}>
+        <Text style={styles.title}>Sign In</Text>
+        <Input
+          id='email'
+          onChangeText={(value) => inputChangedHandler('email', value)}
+          errorText={formState.inputValidities['email']}
+          placeholder='Email'
+          keyboardType='email-address'
+          style={{
+            marginBottom: 12,
+            color: kittenTheme['color-primary-500'],
+            borderColor: kittenTheme['color-primary-500'],
+          }}
+          placeholderTextColor={kittenTheme['color-primary-100']}
+          autoCapitalize='none'
+          value={formState.inputValues['email']}
+          caption={renderEmailCaption}
+        />
+        <Input
+          onChangeText={(value) => inputChangedHandler('password', value)}
+          errorText={formState.inputValidities['password']}
+          autoCapitalize='none'
+          id='password'
+          placeholder='Password'
+          secureTextEntry={true}
+          style={{
+            marginBottom: 12,
+            color: kittenTheme['color-primary-500'],
+            borderColor: kittenTheme['color-primary-500'],
+          }}
+          placeholderTextColor={kittenTheme['color-primary-100']}
+          value={formState.inputValues['password']}
+          caption={renderPasswordCaption}
+        />
+        <Button
+          filled
+          onPress={handleSignIn}
+          disabled={!formState.formIsValid}
+          style={{
+            marginVertical: 6,
+            width: width - 32,
+          }}
+        >
+          Sign In
+        </Button>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text
+            style={[
+              styles.forgotPassword,
+              {
+                color: kittenTheme['color-primary-400'],
+              },
+            ]}
           >
-            Sign In
-          </Button>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPassword')}
-          >
-            <Text
-              style={[
-                styles.forgotPassword,
-                {
-                  color: kittenTheme['color-primary-400'],
-                },
-              ]}
-            >
-              Forgot Password?
-            </Text>
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.socialTitle}>Continue with</Text>
-            <View style={styles.socialBtnContainer}>
-              <SocialButton icon={icons.appleLogo} onPress={appleAuthHandler} />
-              <SocialButton
-                icon={icons.facebook}
-                onPress={facebookAuthHandler}
-              />
-              <SocialButton icon={icons.google} onPress={googleAuthHandler} />
-            </View>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.socialTitle}>Continue with</Text>
+          <View style={styles.socialBtnContainer}>
+            <SocialButton icon={icons.appleLogo} onPress={appleAuthHandler} />
+            <SocialButton icon={icons.facebook} onPress={facebookAuthHandler} />
+            <SocialButton icon={icons.google} onPress={googleAuthHandler} />
           </View>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Text style={styles.bottomLeft}>Don&apos;t have an account ?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text
-              style={[
-                styles.bottomRight,
-                {
-                  color: kittenTheme['color-primary-500'],
-                  fontWeight: 'bold',
-                },
-              ]}
-            >
-              {' '}
-              Sign Up
-            </Text>
-          </TouchableOpacity>
         </View>
+      </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.bottomLeft}>Don&apos;t have an account ?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text
+            style={[
+              styles.bottomRight,
+              {
+                color: kittenTheme['color-primary-500'],
+                fontWeight: 'bold',
+              },
+            ]}
+          >
+            {' '}
+            Sign Up
+          </Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -235,6 +279,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     marginVertical: 12,
+  },
+  captionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  captionIcon: {
+    width: 10,
+    height: 10,
+    marginRight: 5,
+  },
+  captionText: {
+    fontSize: 12,
+    fontWeight: '400',
   },
 });
 

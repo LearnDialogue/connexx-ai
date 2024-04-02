@@ -7,94 +7,86 @@ import { useAppContext } from '@/utilities/context/app-context';
 import illustrations from '../constants/illustrations';
 import { height, width } from '../constants/size';
 import { useNavigation } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Onboarding1 = () => {
   const navigation = useNavigation();
   const { kittenTheme } = useAppContext();
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
-      }}
-    >
-      <View style={styles.container}>
-        <PageContainer>
-          <View style={styles.contentContainer}>
-            <Image
-              source={illustrations.onboarding1}
-              resizeMode='contain'
-              style={styles.illustration}
-            />
-            <View
+    <View style={styles.container}>
+      <PageContainer>
+        <View style={styles.contentContainer}>
+          <Image
+            source={illustrations.onboarding1}
+            resizeMode='contain'
+            style={styles.illustration}
+          />
+          <View
+            style={[
+              styles.buttonContainer,
+              { backgroundColor: kittenTheme['background-basic-color-1'] },
+            ]}
+          >
+            <View style={styles.titleContainer}>
+              <Text
+                category='h3'
+                style={[
+                  styles.title,
+                  { color: kittenTheme['color-primary-500'] },
+                ]}
+              >
+                Welcome to
+              </Text>
+              <Text
+                category='h3'
+                style={[
+                  styles.subTitle,
+                  { color: kittenTheme['color-primary-500'] },
+                ]}
+              >
+                ConneXX
+              </Text>
+            </View>
+
+            <Text
+              category='p2'
               style={[
-                styles.buttonContainer,
-                { backgroundColor: kittenTheme['background-basic-color-1'] },
+                styles.description,
+                {
+                  color: kittenTheme['color-basic-600'],
+                },
               ]}
             >
-              <View style={styles.titleContainer}>
-                <Text
-                  category='h3'
-                  style={[
-                    styles.title,
-                    { color: kittenTheme['color-primary-500'] },
-                  ]}
-                >
-                  Welcome to
-                </Text>
-                <Text
-                  category='h3'
-                  style={[
-                    styles.subTitle,
-                    { color: kittenTheme['color-primary-500'] },
-                  ]}
-                >
-                  ConneXX
-                </Text>
-              </View>
+              ConneXX has workouts on demand that you can find based on how much
+              time you have
+            </Text>
 
-              <Text
-                category='p2'
-                style={[
-                  styles.description,
-                  {
-                    color: kittenTheme['color-basic-600'],
-                  },
-                ]}
-              >
-                ConneXX has workouts on demand that you can find based on how
-                much time you have
-              </Text>
-
-              <View style={styles.dotsContainer}>
-                <DotsView progress={1} numDots={3} />
-              </View>
-              <Button
-                filled
-                onPress={() => navigation.navigate('Onboarding2')}
-                style={styles.nextButton}
-              >
-                Next
-              </Button>
-              <Button
-                onPress={() => navigation.navigate('index')}
-                style={[
-                  styles.skipButton,
-                  {
-                    borderColor: kittenTheme['color-primary-500'],
-                    color: kittenTheme['color-primary-500'],
-                  },
-                ]}
-              >
-                Skip
-              </Button>
+            <View style={styles.dotsContainer}>
+              <DotsView progress={1} numDots={3} />
             </View>
+            <Button
+              filled
+              onPress={() => navigation.navigate('Onboarding2')}
+              style={styles.nextButton}
+            >
+              Next
+            </Button>
+            <Button
+              onPress={() => navigation.navigate('index')}
+              style={[
+                styles.skipButton,
+                {
+                  borderColor: kittenTheme['color-primary-500'],
+                  color: kittenTheme['color-primary-500'],
+                },
+              ]}
+            >
+              Skip
+            </Button>
           </View>
-        </PageContainer>
-      </View>
-    </SafeAreaView>
+        </View>
+      </PageContainer>
+    </View>
   );
 };
 

@@ -37,6 +37,7 @@
     "expo-system-ui": "~2.9.3",
     "expo-updates": "~0.24.12",
     "expo-web-browser": "~12.8.2",
+    "firebase": "^10.10.0",
     "i18n-js": "^4.4.3",
     "openai": "^4.30.0",
     "react": "18.2.0",

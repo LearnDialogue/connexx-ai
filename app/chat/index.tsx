@@ -122,7 +122,7 @@ export default function ChatScreen() {
 
   useEffect(() => {
     if (messages.length >= 2) {
-      dispatch(storeConversationToAsyncStorage() as any);
+      // dispatch(storeConversationToAsyncStorage() as any);
     }
   }, [messages, conversationId]);
 
@@ -164,17 +164,13 @@ export default function ChatScreen() {
   };
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
         backgroundColor: kittenTheme['background-basic-color-2'],
       }}
     >
-      <StatusBar
-        style={theme === 'light' ? 'dark' : 'light'}
-        translucent={true}
-        backgroundColor={kittenTheme['background-basic-color-2']}
-      />
       <TopNavigation
         title={i18n.t('chat.title', { defaultValue: 'New Chat' })}
         subtitle={i18n.t('chat.subtitle', {
@@ -251,7 +247,7 @@ export default function ChatScreen() {
           />
         </Layout>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

@@ -8,9 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from 'expo-router';
-import { Button, Text } from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 import { width } from '../constants/size';
 import { useAppContext } from '@/utilities/context/app-context';
 import OTPTextInput from 'react-native-otp-textinput';
@@ -102,7 +101,8 @@ const Verification = () => {
   };
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={[
         styles.area,
         {
@@ -190,7 +190,7 @@ const Verification = () => {
         </ScrollView>
       </View>
       {renderResendCodeModal()}
-    </SafeAreaView>
+    </Layout>
   );
 };
 

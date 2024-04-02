@@ -7,24 +7,22 @@ import {
   FlatList,
 } from 'react-native';
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Categories, exercises, popularWorkouts } from '../../data';
 import { useNavigation } from 'expo-router';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import { width } from '../../constants/size';
 import { useAppContext } from '@/utilities/context/app-context';
+import { auth } from '@/firebase';
 import icons from '../../constants/icons';
 import images from '../../constants/images';
 import SubHeader from '../../components/SubHeader';
 import CategoryCard from '../../components/CategoryCard';
 import WorkoutCard from '../../components/WorkoutCard';
 import ExerciseCard from '../../components/ExerciseCard';
-import { StatusBar } from 'expo-status-bar';
 
 const Home = () => {
   const { kittenTheme } = useAppContext();
-  const { theme } = useTheme();
   const navigation = useNavigation();
 
   /**
@@ -40,7 +38,9 @@ const Home = () => {
           },
         ]}
       >
-        <Text style={styles.headerTitle}>Hi, Sunny</Text>
+        <Text style={styles.headerTitle}>
+          Hi, {auth.currentUser?.displayName || 'User'}
+        </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('home')}
           style={[
@@ -228,11 +228,7 @@ const Home = () => {
 
   const renderExercises = () => {
     return (
-      <View>
-        <StatusBar
-          style={theme === 'light' ? 'dark' : 'light'}
-          backgroundColor={kittenTheme['background-basic-color-2']}
-        />
+      <Layout level='2' style={{ marginTop: 12 }}>
         <SubHeader
           title='Exercises'
           onPress={() => navigation.navigate('home')}
@@ -254,11 +250,12 @@ const Home = () => {
             )}
           />
         </Layout>
-      </View>
+      </Layout>
     );
   };
   return (
-    <SafeAreaView
+    <Layout
+      level='1'
       style={[
         styles.area,
         {
@@ -294,7 +291,7 @@ const Home = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </SafeAreaView>
+    </Layout>
   );
 };
 
@@ -304,7 +301,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
   },
   headerContainer: {
     width: width - 32,

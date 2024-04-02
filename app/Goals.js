@@ -6,7 +6,6 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import StepHeader from '../components/StepHeader';
 import { useNavigation } from 'expo-router';
 import { Button } from '@ui-kitten/components';
@@ -23,141 +22,132 @@ const Goals = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[
-        styles.area,
+        styles.container,
         {
           backgroundColor: kittenTheme['background-basic-color-2'],
         },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <StepHeader
-          title='Step 2 of 8'
-          onPress={() => navigation.navigate('SelectHeight')}
-        />
-        <ScrollView>
+      <StepHeader
+        title='Step 2 of 8'
+        onPress={() => navigation.navigate('SelectHeight')}
+      />
+      <ScrollView>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          Choose main goal
+        </Text>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('Lose weight')}
+          style={[
+            styles.goalsContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'Lose weight' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.goalsIcon}>👩‍⚖️</Text>
           <Text
             style={[
-              styles.title,
+              styles.goalsTitle,
               {
-                color: kittenTheme['color-primary-500'],
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            Choose main goal
+            Lose weight
           </Text>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('Lose weight')}
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('Keep fit')}
+          style={[
+            styles.goalsContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'Keep fit' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.goalsIcon}>🍀</Text>
+          <Text
             style={[
-              styles.goalsContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'Lose weight' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
+              styles.goalsTitle,
+              {
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            <Text style={styles.goalsIcon}>👩‍⚖️</Text>
-            <Text
-              style={[
-                styles.goalsTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Lose weight
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('Keep fit')}
+            Keep fit
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('Get stronger')}
+          style={[
+            styles.goalsContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'Get stronger' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.goalsIcon}>💪</Text>
+          <Text
             style={[
-              styles.goalsContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'Keep fit' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
+              styles.goalsTitle,
+              {
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            <Text style={styles.goalsIcon}>🍀</Text>
-            <Text
-              style={[
-                styles.goalsTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Keep fit
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('Get stronger')}
+            Get stronger
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('Gain muscle mass')}
+          style={[
+            styles.goalsContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'Gain muscle mass' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.goalsIcon}>🏋️</Text>
+          <Text
             style={[
-              styles.goalsContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'Get stronger' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
+              styles.goalsTitle,
+              {
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            <Text style={styles.goalsIcon}>💪</Text>
-            <Text
-              style={[
-                styles.goalsTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Get stronger
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('Gain muscle mass')}
-            style={[
-              styles.goalsContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'Gain muscle mass' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
-              },
-            ]}
-          >
-            <Text style={styles.goalsIcon}>🏋️</Text>
-            <Text
-              style={[
-                styles.goalsTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Gain muscle mass
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Button
-            filled
-            style={{ width: width - 32 }}
-            onPress={() => navigation.navigate('SelectHeight')}
-          >
-            Start Training
-          </Button>
-        </View>
+            Gain muscle mass
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Button
+          filled
+          style={{ width: width - 32 }}
+          onPress={() => navigation.navigate('SelectHeight')}
+        >
+          Start Training
+        </Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

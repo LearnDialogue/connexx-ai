@@ -1,4 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+import { auth } from '@/firebase';
 
 // Slice to fetch User Detail
 
@@ -8,6 +14,11 @@ const initialState = {
   isProfileUploadError: false,
   error: null,
   success: null,
+  fullName: '',
+  email: '',
+  phoneNumber: '',
+  password: '',
+  user: null,
 };
 
 const slice = createSlice({
@@ -19,7 +30,7 @@ const slice = createSlice({
       state.success = null;
       state.isLoading = true;
       state.error = false;
-      state.user = {};
+      state.user = null;
     },
 
     // Profile update Loading
@@ -27,6 +38,26 @@ const slice = createSlice({
       state.success = null;
       state.isLoading = true;
       state.error = false;
+    },
+
+    // SET PASSWORD
+    setPassword(state, action) {
+      state.password = action.payload;
+    },
+
+    // SET FULL NAME
+    setFullName(state, action) {
+      state.fullName = action.payload;
+    },
+
+    // SET EMAIL
+    setEmail(state, action) {
+      state.email = action.payload;
+    },
+
+    // SET PHONE NUMBER
+    setPhoneNumber(state, action) {
+      state.phoneNumber = action.payload;
     },
 
     // Forgot Pass Loading Start
@@ -55,7 +86,7 @@ const slice = createSlice({
       state.success = null;
       state.isLoading = false;
       state.error = action.payload;
-      state.user = {};
+      state.user = null;
     },
 
     // Profile Update has error
@@ -125,6 +156,38 @@ const slice = createSlice({
     },
   },
 });
+
+// sign up user with firebase
+export const signUpUser = () => async (dispatch, getState) => {
+  dispatch(actions.startLoading());
+  try {
+    const { email, password, fullName, phoneNumber } = getState().user;
+    const response = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    dispatch(actions.getUserSuccess(response.user));
+    updateProfile(auth.currentUser, {
+      displayName: fullName,
+      phoneNumber,
+    });
+  } catch (error) {
+    dispatch(actions.hasError(error.message));
+  }
+};
+
+// sign in user with firebase
+export const signInUser = () => async (dispatch, getState) => {
+  dispatch(actions.startLoading());
+  try {
+    const { email, password } = getState().user;
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    dispatch(actions.getUserSuccess(response.user));
+  } catch (error) {
+    dispatch(actions.hasError(error.message));
+  }
+};
 
 // Reducer
 export default slice.reducer;

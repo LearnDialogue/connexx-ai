@@ -10,17 +10,16 @@ import {
   Text,
   TopNavigation,
 } from '@ui-kitten/components';
-import { StatusBar } from 'expo-status-bar';
 import { useTheme } from '@/utilities/context/theme-context';
 import { useAppContext } from '@/utilities/context/app-context';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import i18n from '@/utilities/localizations/i18n';
 import { useEffect, useState } from 'react';
 import HistoryItem from '@/components/HistoryItem';
 import initialSearchState from '@/constants/types/history/search-state';
-import { initialStoredMessages } from '@/constants/types/chat/message';
-import Storage from '@/utilities/storage/async-storage';
+// import Storage from '@/utilities/storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import { auth, db } from '@/firebase';
+import { deleteAllChats, getAllChats } from '@/redux/slices/chat';
 
 export default function TabHistoryScreen() {
   const { theme } = useTheme();
@@ -37,7 +36,7 @@ export default function TabHistoryScreen() {
 
   const getStoredMessages = async () => {
     try {
-      const storedMessages = await Storage.getObjectData('chat-history');
+      const storedMessages = await getAllChats();
       if (storedMessages) {
         setAppData({
           ...appData,
@@ -51,7 +50,7 @@ export default function TabHistoryScreen() {
 
   const clearHistory = async () => {
     try {
-      await Storage.storeObjectData('chat-history', []);
+      await deleteAllChats();
       setAppData({
         ...appData,
         history: { ...appData.history, chat: [] },
@@ -68,70 +67,57 @@ export default function TabHistoryScreen() {
   }, [isFocused]);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
-      }}
-    >
-      <Layout level='2' style={{ flex: 1 }}>
-        <StatusBar
-          style={theme === 'light' ? 'dark' : 'light'}
-          backgroundColor={kittenTheme['background-basic-color-2']}
+    <Layout level='2' style={{ flex: 1 }}>
+      <TopNavigation
+        title={i18n.t('history.title')}
+        subtitle={(props) => (
+          <Text {...props} style={[props?.style, styles.subtitle]}>
+            {i18n.t('history.subtitle')}
+          </Text>
+        )}
+        alignment='center'
+      />
+      <Divider />
+      <Layout level='2' style={styles.container}>
+        {/* Search Input */}
+        <Input
+          value={search.query}
+          onChangeText={(nextValue) =>
+            setSearch({ ...search, query: nextValue })
+          }
+          style={{ marginVertical: 10 }}
+          placeholder={i18n.t('history.inputs.search', {
+            defaultValue: 'Search',
+          })}
+          accessoryRight={SearchIcon}
         />
-        <TopNavigation
-          title={i18n.t('history.title')}
-          subtitle={(props) => (
-            <Text {...props} style={[props?.style, styles.subtitle]}>
-              {i18n.t('history.subtitle')}
-            </Text>
-          )}
-          alignment='center'
-        />
-        <Divider />
-        <Layout level='2' style={styles.container}>
-          {/* Search Input */}
-          <Input
-            value={search.query}
-            onChangeText={(nextValue) =>
-              setSearch({ ...search, query: nextValue })
-            }
-            style={{ marginVertical: 10 }}
-            placeholder={i18n.t('history.inputs.search', {
-              defaultValue: 'Search',
-            })}
-            accessoryRight={SearchIcon}
-          />
-          {/* Button to reload history */}
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+        {/* Button to reload history */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Text
+            style={{ color: kittenTheme['color-primary-500'] }}
+            onPress={getStoredMessages}
           >
-            <Text
-              style={{ color: kittenTheme['color-primary-500'] }}
-              onPress={getStoredMessages}
-            >
-              {i18n.t('history.reload')}
-            </Text>
-            <Text
-              style={{ color: kittenTheme['color-primary-500'] }}
-              onPress={clearHistory}
-            >
-              {i18n.t('history.clear')}
-            </Text>
-          </View>
-          {appData.history &&
-          appData.history.chat &&
-          appData.history.chat.length > 0 ? (
-            <List
-              scrollEnabled
-              style={styles.listConatiner}
-              data={appData.history.chat}
-              renderItem={HistoryItem}
-            />
-          ) : null}
-        </Layout>
+            {i18n.t('history.reload')}
+          </Text>
+          <Text
+            style={{ color: kittenTheme['color-primary-500'] }}
+            onPress={clearHistory}
+          >
+            {i18n.t('history.clear')}
+          </Text>
+        </View>
+        {appData.history &&
+        appData.history.chat &&
+        appData.history.chat.length > 0 ? (
+          <List
+            scrollEnabled
+            style={styles.listConatiner}
+            data={appData.history.chat}
+            renderItem={HistoryItem}
+          />
+        ) : null}
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

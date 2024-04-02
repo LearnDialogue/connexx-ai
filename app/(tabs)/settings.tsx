@@ -1,20 +1,9 @@
-import {
-  Alert,
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
   Button,
   Divider,
   Icon,
   IconProps,
-  Input,
-  InputProps,
   Layout,
   List,
   Text,
@@ -23,15 +12,13 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import SettingsItem from '@/components/SettingsItem';
 import { useTheme } from '@/utilities/context/theme-context';
 import { useAppContext } from '@/utilities/context/app-context';
 import SettingsDivider from '@/components/SettingsDivider';
-import CustomeIcon from '@/utilities/icons/custome-icons';
-import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utilities/localizations/i18n';
+import { auth } from '@/firebase';
 
 export default function TabSettingsScreen() {
   const { theme, toggleTheme } = useTheme();
@@ -113,17 +100,26 @@ export default function TabSettingsScreen() {
     <Icon {...props} name='log-out-outline' />
   );
 
-  const LogoutAction = () => (
-    <Link href={'.././'} asChild>
-      <TopNavigationAction icon={LogoutIcon} />
-    </Link>
-  );
+  const LogoutAction = () => {
+    const handleSignout = async () => {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        console.error('error signing out', error);
+      }
+    };
+    return (
+      <TouchableOpacity>
+        <TopNavigationAction onPress={handleSignout} icon={LogoutIcon} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
       }}
     >
       <StatusBar
@@ -167,7 +163,7 @@ export default function TabSettingsScreen() {
           </Layout>
         </ScrollView>
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

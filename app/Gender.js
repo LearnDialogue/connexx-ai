@@ -6,7 +6,6 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import StepHeader from '../components/StepHeader';
 import { useNavigation } from 'expo-router';
 import { Button } from '@ui-kitten/components';
@@ -23,118 +22,109 @@ const Gender = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[
-        styles.area,
+        styles.container,
         {
           backgroundColor: kittenTheme['background-basic-color-2'],
         },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <StepHeader
-          title='Step 1 of 8'
-          onPress={() => navigation.navigate('Goals')}
-        />
-        <ScrollView>
+      <StepHeader
+        title='Step 1 of 8'
+        onPress={() => navigation.navigate('Goals')}
+      />
+      <ScrollView>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          Choose gender
+        </Text>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('woman')}
+          style={[
+            styles.genderContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'woman' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.genderIcon}>👩</Text>
           <Text
             style={[
-              styles.title,
+              styles.genderTitle,
               {
-                color: kittenTheme['color-primary-500'],
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            Choose gender
+            Woman
           </Text>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('woman')}
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('man')}
+          style={[
+            styles.genderContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'man' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.genderIcon}>👨</Text>
+          <Text
             style={[
-              styles.genderContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'woman' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
+              styles.genderTitle,
+              {
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            <Text style={styles.genderIcon}>👩</Text>
-            <Text
-              style={[
-                styles.genderTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Woman
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('man')}
+            Man
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelectOption('neutral')}
+          style={[
+            styles.genderContainer,
+            { borderColor: kittenTheme['color-primary-500'] },
+            selectedOption === 'neutral' && {
+              backgroundColor: kittenTheme['color-primary-500'],
+              borderColor: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          <Text style={styles.genderIcon}>🧓</Text>
+          <Text
             style={[
-              styles.genderContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'man' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
+              styles.genderTitle,
+              {
+                color: kittenTheme['color-basic-100'],
               },
             ]}
           >
-            <Text style={styles.genderIcon}>👨</Text>
-            <Text
-              style={[
-                styles.genderTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Man
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSelectOption('neutral')}
-            style={[
-              styles.genderContainer,
-              { borderColor: kittenTheme['color-primary-500'] },
-              selectedOption === 'neutral' && {
-                backgroundColor: kittenTheme['color-primary-500'],
-                borderColor: kittenTheme['color-primary-500'],
-              },
-            ]}
-          >
-            <Text style={styles.genderIcon}>🧓</Text>
-            <Text
-              style={[
-                styles.genderTitle,
-                {
-                  color: kittenTheme['color-basic-100'],
-                },
-              ]}
-            >
-              Gender neutral
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Button
-            filled
-            style={{ width: width - 32 }}
-            onPress={() => navigation.navigate('Goals')}
-          >
-            Continue
-          </Button>
-        </View>
+            Gender neutral
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Button
+          filled
+          style={{ width: width - 32 }}
+          onPress={() => navigation.navigate('Goals')}
+        >
+          Continue
+        </Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

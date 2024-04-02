@@ -45,7 +45,8 @@ export default function ProScreen() {
   }));
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
         backgroundColor: kittenTheme['background-basic-color-2'],
@@ -74,7 +75,7 @@ export default function ProScreen() {
           renderItem={LanguageItem}
         />
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

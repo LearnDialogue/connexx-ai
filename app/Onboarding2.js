@@ -7,94 +7,86 @@ import { useAppContext } from '@/utilities/context/app-context';
 import { Button, Text } from '@ui-kitten/components';
 import PageContainer from '@/components/PageContainer';
 import DotsView from '@/components/DotsView';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Onboarding2 = () => {
   const navigation = useNavigation();
   const { kittenTheme } = useAppContext();
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
-      }}
-    >
-      <View style={styles.container}>
-        <PageContainer>
-          <View style={styles.contentContainer}>
-            <Image
-              source={illustrations.onboarding2}
-              resizeMode='contain'
-              style={styles.illustration}
-            />
-            <View
+    <View style={styles.container}>
+      <PageContainer>
+        <View style={styles.contentContainer}>
+          <Image
+            source={illustrations.onboarding2}
+            resizeMode='contain'
+            style={styles.illustration}
+          />
+          <View
+            style={[
+              styles.buttonContainer,
+              { backgroundColor: kittenTheme['background-basic-color-1'] },
+            ]}
+          >
+            <View style={styles.titleContainer}>
+              <Text
+                category='h4'
+                style={[
+                  styles.title,
+                  { color: kittenTheme['color-primary-500'] },
+                ]}
+              >
+                Personalizes Workout
+              </Text>
+              <Text
+                category='h4'
+                style={[
+                  styles.subTitle,
+                  { color: kittenTheme['color-primary-500'] },
+                ]}
+              >
+                Categories
+              </Text>
+            </View>
+
+            <Text
+              category='p2'
               style={[
-                styles.buttonContainer,
-                { backgroundColor: kittenTheme['background-basic-color-1'] },
+                styles.description,
+                {
+                  color: kittenTheme['color-basic-600'],
+                },
               ]}
             >
-              <View style={styles.titleContainer}>
-                <Text
-                  category='h4'
-                  style={[
-                    styles.title,
-                    { color: kittenTheme['color-primary-500'] },
-                  ]}
-                >
-                  Personalizes Workout
-                </Text>
-                <Text
-                  category='h4'
-                  style={[
-                    styles.subTitle,
-                    { color: kittenTheme['color-primary-500'] },
-                  ]}
-                >
-                  Categories
-                </Text>
-              </View>
+              Workout categories will help you gain strength, get in better
+              shape and embrace a healthy lifestyle
+            </Text>
 
-              <Text
-                category='p2'
-                style={[
-                  styles.description,
-                  {
-                    color: kittenTheme['color-basic-600'],
-                  },
-                ]}
-              >
-                Workout categories will help you gain strength, get in better
-                shape and embrace a healthy lifestyle
-              </Text>
-
-              <View style={styles.dotsContainer}>
-                <DotsView progress={2} numDots={3} />
-              </View>
-              <Button
-                filled
-                onPress={() => navigation.navigate('Onboarding3')}
-                style={styles.nextButton}
-              >
-                Next
-              </Button>
-              <Button
-                onPress={() => navigation.navigate('index')}
-                style={[
-                  styles.skipButton,
-                  {
-                    borderColor: kittenTheme['color-primary-500'],
-                    color: kittenTheme['color-primary-500'],
-                  },
-                ]}
-              >
-                Skip
-              </Button>
+            <View style={styles.dotsContainer}>
+              <DotsView progress={2} numDots={3} />
             </View>
+            <Button
+              filled
+              onPress={() => navigation.navigate('Onboarding3')}
+              style={styles.nextButton}
+            >
+              Next
+            </Button>
+            <Button
+              onPress={() => navigation.navigate('index')}
+              style={[
+                styles.skipButton,
+                {
+                  borderColor: kittenTheme['color-primary-500'],
+                  color: kittenTheme['color-primary-500'],
+                },
+              ]}
+            >
+              Skip
+            </Button>
           </View>
-        </PageContainer>
-      </View>
-    </SafeAreaView>
+        </View>
+      </PageContainer>
+    </View>
   );
 };
 

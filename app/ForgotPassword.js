@@ -6,11 +6,10 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { validateInput } from '../utilities/actions/formActions';
 import { reducer } from '../utilities/reducers/formReducers';
 import { useNavigation } from 'expo-router';
-import { Button, Input, Text } from '@ui-kitten/components';
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { width } from '../constants/size';
 import { useAppContext } from '@/utilities/context/app-context';
 
@@ -49,7 +48,8 @@ const ForgotPassword = () => {
   }, [error]);
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={[
         styles.area,
         {
@@ -96,7 +96,7 @@ const ForgotPassword = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </Layout>
   );
 };
 

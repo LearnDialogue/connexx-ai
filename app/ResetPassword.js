@@ -52,84 +52,75 @@ const ResetPassword = () => {
   }, [error]);
 
   return (
-    <SafeAreaView
+    <View
       style={[
-        styles.area,
+        styles.container,
         {
           backgroundColor: kittenTheme['background-basic-color-2'],
         },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Reset Password</Text>
-          <Input
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['newPassword']}
-            autoCapitalize='none'
-            id='newPassword'
-            placeholder='New Password'
-            secureTextEntry={true}
-            style={{
-              marginBottom: 12,
-              color: kittenTheme['color-primary-500'],
-              borderColor: kittenTheme['color-primary-500'],
-            }}
-            placeholderTextColor={kittenTheme['color-primary-100']}
-          />
-          <Input
-            onInputChanged={inputChangedHandler}
-            errorText={formState.inputValidities['confirmNewPassword']}
-            autoCapitalize='none'
-            id='confirmNewPassword'
-            placeholder='Confirm New Password'
-            secureTextEntry={true}
-            style={{
-              marginBottom: 12,
-              color: kittenTheme['color-primary-500'],
-              borderColor: kittenTheme['color-primary-500'],
-            }}
-            placeholderTextColor={kittenTheme['color-primary-100']}
-          />
-          <Button
-            filled
-            onPress={() => navigation.navigate('Signin')}
-            style={{
-              marginVertical: 6,
-              width: width - 32,
-            }}
+      <ScrollView contentContainerStyle={styles.center}>
+        <Text style={styles.title}>Reset Password</Text>
+        <Input
+          onInputChanged={inputChangedHandler}
+          errorText={formState.inputValidities['newPassword']}
+          autoCapitalize='none'
+          id='newPassword'
+          placeholder='New Password'
+          secureTextEntry={true}
+          style={{
+            marginBottom: 12,
+            color: kittenTheme['color-primary-500'],
+            borderColor: kittenTheme['color-primary-500'],
+          }}
+          placeholderTextColor={kittenTheme['color-primary-100']}
+        />
+        <Input
+          onInputChanged={inputChangedHandler}
+          errorText={formState.inputValidities['confirmNewPassword']}
+          autoCapitalize='none'
+          id='confirmNewPassword'
+          placeholder='Confirm New Password'
+          secureTextEntry={true}
+          style={{
+            marginBottom: 12,
+            color: kittenTheme['color-primary-500'],
+            borderColor: kittenTheme['color-primary-500'],
+          }}
+          placeholderTextColor={kittenTheme['color-primary-100']}
+        />
+        <Button
+          filled
+          onPress={() => navigation.navigate('Signin')}
+          style={{
+            marginVertical: 6,
+            width: width - 32,
+          }}
+        >
+          Reset
+        </Button>
+        <TouchableOpacity onPress={() => navigation.navigate('Sigin')}>
+          <Text style={styles.forgotPassword}>Remenber Password?</Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.bottomLeft}>Don&apos;t have an account ?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text
+            style={[
+              styles.bottomRight,
+              {
+                color: kittenTheme['color-primary-500'],
+              },
+            ]}
           >
-            Reset
-          </Button>
-          <TouchableOpacity onPress={() => navigation.navigate('Sigin')}>
-            <Text style={styles.forgotPassword}>Remenber Password?</Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Text style={styles.bottomLeft}>Don&apos;t have an account ?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text
-              style={[
-                styles.bottomRight,
-                {
-                  color: kittenTheme['color-primary-500'],
-                },
-              ]}
-            >
-              {' '}
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+            {' '}
+            Sign Up
+          </Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

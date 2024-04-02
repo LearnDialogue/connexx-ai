@@ -1,29 +1,23 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import {
-  BottomNavigationTab,
   Button,
-  Card,
   Icon,
   IconProps,
-  Input,
   Layout,
   Text,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '@/utilities/context/theme-context';
 import { useAppContext } from '@/utilities/context/app-context';
-import { StatusBar } from 'expo-status-bar';
 import i18n from '@/utilities/localizations/i18n';
 import { Link, router } from 'expo-router';
 import React from 'react';
 import CustomeIcon from '@/utilities/icons/custome-icons';
 import HomeSection from '@/components/HomeSection';
+import { auth } from '@/firebase';
 
 export default function TabChatScreen() {
-  const { theme } = useTheme();
   const { kittenTheme } = useAppContext();
 
   const [message, setMessage] = React.useState<string>('');
@@ -83,16 +77,7 @@ export default function TabChatScreen() {
   const prompts = [...i18n.t('home.prompts')];
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
-      }}
-    >
-      <StatusBar
-        style={theme === 'light' ? 'dark' : 'light'}
-        backgroundColor={kittenTheme['background-basic-color-2']}
-      />
+    <Layout level='1' style={{ flex: 1 }}>
       <TopNavigation
         // title={i18n.t('home.title')}
         // subtitle={i18n.t('home.subtitle')}
@@ -109,7 +94,7 @@ export default function TabChatScreen() {
           <Text category='h4'>
             {i18n.t('home.greeting', { defaultValue: 'Hello' })?.toString()}
             <Text category='h3' status='primary'>
-              Sunny
+              {auth.currentUser?.displayName || 'User'}
             </Text>
           </Text>
           <Text category='h5' appearance='hint'>
@@ -151,7 +136,7 @@ export default function TabChatScreen() {
           </Link>
         </ScrollView>
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

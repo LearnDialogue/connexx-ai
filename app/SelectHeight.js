@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import StepHeader from '../components/StepHeader';
 import { useNavigation } from 'expo-router';
 import { Button } from '@ui-kitten/components';
@@ -32,126 +31,117 @@ const SelectHeight = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[
-        styles.area,
+        styles.container,
         {
           backgroundColor: kittenTheme['background-basic-color-2'],
         },
       ]}
     >
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: kittenTheme['background-basic-color-2'],
-          },
-        ]}
-      >
-        <StepHeader
-          title='Step 4 of 8'
-          onPress={() => navigation.navigate('SelectWeight')}
-        />
-        <ScrollView>
-          <Text
+      <StepHeader
+        title='Step 4 of 8'
+        onPress={() => navigation.navigate('SelectWeight')}
+      />
+      <ScrollView>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: kittenTheme['color-primary-500'],
+            },
+          ]}
+        >
+          Select height
+        </Text>
+        <View style={{ alignItems: 'center' }}>
+          <View
             style={[
-              styles.title,
+              styles.barContainer,
               {
-                color: kittenTheme['color-primary-500'],
+                backgroundColor: kittenTheme['background-basic-color-3'],
               },
             ]}
           >
-            Select height
-          </Text>
-          <View style={{ alignItems: 'center' }}>
-            <View
+            <TouchableOpacity
+              onPress={() => handleSelectOption('Feet')}
               style={[
-                styles.barContainer,
-                {
-                  backgroundColor: kittenTheme['background-basic-color-3'],
+                styles.selectItemContainer,
+                selectedOption === 'Feet' && {
+                  backgroundColor: kittenTheme['color-primary-500'],
                 },
               ]}
             >
-              <TouchableOpacity
-                onPress={() => handleSelectOption('Feet')}
-                style={[
-                  styles.selectItemContainer,
-                  selectedOption === 'Feet' && {
-                    backgroundColor: kittenTheme['color-primary-500'],
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.selectItemText,
-                    { color: kittenTheme['color-basic-100'] },
-                    selectedOption === 'Feet' && styles.selectedSelectItemText,
-                  ]}
-                >
-                  Feet
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleSelectOption('Centimetre')}
-                style={[
-                  styles.selectItemContainer,
-                  selectedOption === 'Centimetre' && {
-                    backgroundColor: kittenTheme['color-primary-500'],
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.selectItemText,
-                    { color: kittenTheme['color-basic-100'] },
-                    selectedOption === 'Centimetre' &&
-                      styles.selectedSelectItemText,
-                  ]}
-                >
-                  Centimetre
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={[
-                  styles.input,
-                  {
-                    borderColor: kittenTheme['color-primary-500'],
-                    color: kittenTheme['color-primary-500'],
-                  },
-                ]}
-                value={height}
-                onChangeText={(text) => setHeight(text)}
-                keyboardType='numeric'
-              />
               <Text
                 style={[
-                  styles.inputHeight,
-                  {
-                    color: kittenTheme['color-basic-100'],
-                    fontWeight: 'bold',
-                  },
+                  styles.selectItemText,
+                  { color: kittenTheme['color-basic-100'] },
+                  selectedOption === 'Feet' && styles.selectedSelectItemText,
                 ]}
               >
-                {heightValue}
+                Feet
               </Text>
-            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleSelectOption('Centimetre')}
+              style={[
+                styles.selectItemContainer,
+                selectedOption === 'Centimetre' && {
+                  backgroundColor: kittenTheme['color-primary-500'],
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.selectItemText,
+                  { color: kittenTheme['color-basic-100'] },
+                  selectedOption === 'Centimetre' &&
+                    styles.selectedSelectItemText,
+                ]}
+              >
+                Centimetre
+              </Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <Button
-            filled
-            style={{ width: width - 32 }}
-            onPress={() =>
-              navigation.reset({ index: 0, routes: [{ name: '(tabs)' }] })
-            }
-          >
-            Continue
-          </Button>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  borderColor: kittenTheme['color-primary-500'],
+                  color: kittenTheme['color-primary-500'],
+                },
+              ]}
+              value={height}
+              onChangeText={(text) => setHeight(text)}
+              keyboardType='numeric'
+            />
+            <Text
+              style={[
+                styles.inputHeight,
+                {
+                  color: kittenTheme['color-basic-100'],
+                  fontWeight: 'bold',
+                },
+              ]}
+            >
+              {heightValue}
+            </Text>
+          </View>
         </View>
+      </ScrollView>
+      <View style={styles.bottomContainer}>
+        <Button
+          filled
+          style={{ width: width - 32 }}
+          onPress={() =>
+            navigation.reset({ index: 0, routes: [{ name: '(tabs)' }] })
+          }
+        >
+          Continue
+        </Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -48,6 +48,8 @@ export default function index() {
     }
   }, [isLoading, isFirstLaunch]);
 
+  // send user to (tabs) when onAuthStateChanged is triggered
+
   return (
     <View
       style={{

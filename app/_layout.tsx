@@ -1,5 +1,6 @@
 import 'expo-dev-client';
 import 'react-native-get-random-values';
+import '@/firebase';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { store, persistor } from '@/redux/store';
@@ -9,7 +10,10 @@ import { Stack, useNavigation, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@/utilities/context/theme-context';
-import { AppContextProvider } from '@/utilities/context/app-context';
+import {
+  AppContextProvider,
+  useAppContext,
+} from '@/utilities/context/app-context';
 // @ts-ignore
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,8 +24,12 @@ export {
 import { ToastProvider } from 'react-native-toast-notifications';
 
 import { I18nManager } from 'react-native';
-import Storage from '@/utilities/storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@ui-kitten/components';
+import { StatusBar } from 'expo-status-bar';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/firebase';
 // import { ChatContextProvider } from '@/utilities/context/chat-context';
 
 // When a value is missing from a language it'll fallback
@@ -46,6 +54,16 @@ export default function RootLayout() {
     'SpaceMono-SemiBold': require('../assets/fonts/SpaceMono-SemiBold.ttf'),
     ...FontAwesome.font,
   });
+  const [isAuthStateLoaded, setIsAuthStateLoaded] = useState(false);
+
+  // Wait for the Auth state to load before hiding the splash screen.
+  useEffect(() => {
+    const checkAuthState = async () => {
+      await auth.authStateReady();
+      setIsAuthStateLoaded(true);
+    };
+    checkAuthState();
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -58,7 +76,7 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
+  if (!loaded || !isAuthStateLoaded) {
     return null;
   }
 
@@ -72,53 +90,70 @@ function RootLayoutNav() {
         <ToastProvider offset={30}>
           <ThemeProvider>
             <AppContextProvider>
-              <Stack
-                initialRouteName={'index'}
-                screenOptions={{ headerShown: false }}
-              >
-                <Stack.Screen
-                  name='Onboarding1'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name='Onboarding2'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name='Onboarding3'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name='Auth'
-                  options={{ headerShown: false, presentation: 'modal' }}
-                />
-                <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-                <Stack.Screen name='Gender' options={{ headerShown: false }} />
-                <Stack.Screen name='Goals' options={{ headerShown: false }} />
-                <Stack.Screen
-                  name='SelectHeight'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen name='Signin' options={{ headerShown: false }} />
-                <Stack.Screen name='Signup' options={{ headerShown: false }} />
-                <Stack.Screen
-                  name='ResetPassword'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name='Verification'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name='ForgotPassword'
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen name='index' options={{ headerShown: false }} />
-              </Stack>
+              <NavigationStack />
             </AppContextProvider>
           </ThemeProvider>
         </ToastProvider>
       </PersistGate>
     </ReduxProvider>
+  );
+}
+
+function NavigationStack() {
+  const { kittenTheme } = useAppContext();
+  const { theme } = useTheme();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          // @ts-ignore
+          routes: [{ name: '(tabs)' }],
+        });
+      } else {
+        navigation.reset({
+          index: 0,
+          // @ts-ignore
+          routes: [{ name: 'Signin' }],
+        });
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: kittenTheme['background-basic-color-2'],
+      }}
+    >
+      <StatusBar
+        style={theme === 'light' ? 'dark' : 'light'}
+        translucent={true}
+        backgroundColor={kittenTheme['background-basic-color-2']}
+      />
+      <Stack initialRouteName={'index'} screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Onboarding1' options={{ headerShown: false }} />
+        <Stack.Screen name='Onboarding2' options={{ headerShown: false }} />
+        <Stack.Screen name='Onboarding3' options={{ headerShown: false }} />
+        <Stack.Screen
+          name='Auth'
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        <Stack.Screen name='Gender' options={{ headerShown: false }} />
+        <Stack.Screen name='Goals' options={{ headerShown: false }} />
+        <Stack.Screen name='SelectHeight' options={{ headerShown: false }} />
+        <Stack.Screen name='Signin' options={{ headerShown: false }} />
+        <Stack.Screen name='Signup' options={{ headerShown: false }} />
+        <Stack.Screen name='ResetPassword' options={{ headerShown: false }} />
+        <Stack.Screen name='Verification' options={{ headerShown: false }} />
+        <Stack.Screen name='ForgotPassword' options={{ headerShown: false }} />
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+      </Stack>
+    </SafeAreaView>
   );
 }

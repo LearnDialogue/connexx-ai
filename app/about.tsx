@@ -26,10 +26,10 @@ export default function AboutScreen() {
   );
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
       }}
     >
       <Screen
@@ -51,7 +51,7 @@ export default function AboutScreen() {
       <Layout level='2' style={styles.container}>
         <Text category='p1'>{i18n.t('about.content')}</Text>
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

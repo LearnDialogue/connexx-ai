@@ -1,15 +1,9 @@
 import MessagesContainer from '@/components/MessagesContainer';
-import {
-  Message,
-  StoredMessage,
-  initialMessages,
-  initialStoredMessages,
-} from '@/constants/types/chat/message';
+import { Message, StoredMessage } from '@/constants/types/chat/message';
 import { useAppContext } from '@/utilities/context/app-context';
 import { useTheme } from '@/utilities/context/theme-context';
 import getTime from '@/utilities/functions/chat/get-time';
 import i18n from '@/utilities/localizations/i18n';
-import Storage from '@/utilities/storage/async-storage';
 import {
   Divider,
   Icon,
@@ -20,8 +14,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import { Link, router, useGlobalSearchParams } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -29,13 +22,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from '@/redux/store';
-import {
-  actions,
-  askGPT,
-  storeConversationToAsyncStorage,
-} from '@/redux/slices/chat';
+import { actions, askGPT, getAllChats, getChatById } from '@/redux/slices/chat';
 // @ts-ignore
 import { v4 as uuid } from 'uuid';
 
@@ -67,31 +55,19 @@ export default function ChatHistoryScreen() {
     }, 100);
   }, [messages]);
 
-  useEffect(() => {
-    if (messages.length >= 2) {
-      dispatch(storeConversationToAsyncStorage() as any);
-    }
-  }, [messages, conversationId]);
-
   const renderStoredMessages = async () => {
     try {
       if (id) {
-        const storedMessages = (await Storage.getObjectData(
-          'chat-history'
-        )) as StoredMessage[];
+        const storedChat = await getChatById(id);
         dispatch(actions.setConversationId(id));
 
-        if (storedMessages) {
-          const storesMessages = storedMessages.filter(
-            (item: StoredMessage) => item.id === id
-          );
-          if (storesMessages.length > 0) {
-            const { messages } = storesMessages[0];
-            dispatch(actions.setMessages(messages));
-          } else {
-            dispatch(actions.setMessages([]));
-            router.replace('/(tabs)/');
-          }
+        if (storedChat && storedChat.messages.length > 0) {
+          // @ts-ignore
+          const { messages } = storedChat;
+          dispatch(actions.setMessages(messages));
+        } else {
+          dispatch(actions.setMessages([]));
+          router.replace('/(tabs)/');
         }
       }
     } catch (error) {
@@ -187,17 +163,13 @@ export default function ChatHistoryScreen() {
   };
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
         backgroundColor: kittenTheme['background-basic-color-2'],
       }}
     >
-      <StatusBar
-        style={theme === 'light' ? 'dark' : 'light'}
-        translucent={true}
-        backgroundColor={kittenTheme['background-basic-color-2']}
-      />
       <TopNavigation
         title={i18n.t('chat.title', { defaultValue: 'New Chat' })}
         subtitle={i18n.t('chat.subtitle', {
@@ -273,7 +245,7 @@ export default function ChatHistoryScreen() {
           />
         </Layout>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </Layout>
   );
 }
 

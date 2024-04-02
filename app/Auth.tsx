@@ -42,17 +42,12 @@ export default function AuthScreen() {
   };
 
   return (
-    <SafeAreaView
+    <Layout
+      level='2'
       style={{
         flex: 1,
-        backgroundColor: kittenTheme['background-basic-color-2'],
       }}
     >
-      <StatusBar
-        style={theme === 'light' ? 'dark' : 'light'}
-        translucent={true}
-        backgroundColor={kittenTheme['background-basic-color-2']}
-      />
       <Screen
         options={{
           headerShown: false,
@@ -94,7 +89,7 @@ export default function AuthScreen() {
           {i18n.t('start.buttons.get-started')}
         </Button>
       </Layout>
-    </SafeAreaView>
+    </Layout>
   );
 }
 
