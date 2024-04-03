@@ -110,7 +110,7 @@ function NavigationStack() {
         navigation.reset({
           index: 0,
           // @ts-ignore
-          routes: [{ name: '(tabs)' }],
+          routes: [{ name: 'Onboarding1' }],
         });
       } else {
         navigation.reset({

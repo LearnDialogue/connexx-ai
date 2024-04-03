@@ -66,10 +66,10 @@ const Onboarding3 = () => {
             </View>
             <Button
               filled
-              onPress={() => navigation.navigate('index')}
+              onPress={() => navigation.navigate('(tabs)')}
               style={styles.nextButton}
             >
-              Sign In
+              Continue
             </Button>
           </View>
         </View>
