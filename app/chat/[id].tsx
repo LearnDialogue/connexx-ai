@@ -15,15 +15,10 @@ import {
 } from '@ui-kitten/components';
 import { Link, router, useGlobalSearchParams } from 'expo-router';
 import { useEffect, useRef } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from '@/redux/store';
 import { actions, askGPT, getAllChats, getChatById } from '@/redux/slices/chat';
+import PageContainer from '@/components/PageContainer';
 // @ts-ignore
 import { v4 as uuid } from 'uuid';
 
@@ -179,15 +174,7 @@ export default function ChatHistoryScreen() {
         accessoryLeft={BackAction}
       />
       <Divider />
-      <KeyboardAvoidingView
-        behavior={Platform.select({ android: undefined, ios: 'padding' })}
-        keyboardVerticalOffset={Platform.select({
-          android: undefined,
-          ios: 0,
-        })}
-        enabled={true}
-        style={{ flex: 1 }}
-      >
+      <PageContainer>
         <ScrollView ref={scrollViewRef}>
           <Layout level='2' style={styles.container}>
             {messages.map((message: any, index: any) => (
@@ -244,7 +231,7 @@ export default function ChatHistoryScreen() {
             }}
           />
         </Layout>
-      </KeyboardAvoidingView>
+      </PageContainer>
     </Layout>
   );
 }

@@ -27,6 +27,7 @@ import { Message } from '@/constants/types/chat/message';
 import getTime from '@/utilities/functions/chat/get-time';
 import { useDispatch, useSelector } from '@/redux/store';
 import { actions, askGPT } from '@/redux/slices/chat';
+import PageContainer from '@/components/PageContainer';
 
 type state = {
   chat: {
@@ -192,15 +193,7 @@ export default function ChatScreen() {
         accessoryLeft={BackAction}
       />
       <Divider />
-      <KeyboardAvoidingView
-        behavior={Platform.select({ android: undefined, ios: 'padding' })}
-        keyboardVerticalOffset={Platform.select({
-          android: undefined,
-          ios: 0,
-        })}
-        enabled={true}
-        style={{ flex: 1 }}
-      >
+      <PageContainer>
         <ScrollView ref={scrollViewRef}>
           <Layout level='2' style={styles.container}>
             {messages.map((message, index) => (
@@ -258,7 +251,7 @@ export default function ChatScreen() {
             }}
           />
         </Layout>
-      </KeyboardAvoidingView>
+      </PageContainer>
     </Layout>
   );
 }
